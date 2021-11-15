@@ -37,9 +37,17 @@ from the package manager `yum` as well as
 
 Furthermore, the Docker container will contain **[Trilinos](https://github.com/trilinos/Trilinos/) in the [13.2 release version](https://github.com/trilinos/Trilinos/releases/tag/trilinos-release-13-2-0)**. The Trilinos installation will be a minimum built necessary for the FROSch exercises and tutorials. In case, you want to modify the configuration of Trilinos (e.g., enable debugging flags or additional packages), please modify the configure script `configurefiles/do-configure-trilinos.sh`. **Be careful when changing any of the paths** as they are chosen according to the configuration of the docker container; similarly, you can modify the configuration of VTK (`configurefiles/do-configure-vtk.sh`).
 
-### Install Docker
+### Installing Docker
 
-[Docker](https://www.docker.com) can be easily installed on Linux, Windows, and MacOS and facilitates the delivery software in packages called containers, which isolated and bundle their own software, libraries, and configuration files.
+[Docker](https://www.docker.com) can be easily installed on Linux, Windows, and MacOS and facilitates the delivery software in packages called containers, which are isolated and bundle their own software, libraries, and configuration files. 
+
+Please first install Docker on your computer following from the [official website](https://www.docker.com/get-started). 
+
+---
+
+**All following steps require that the software Docker is running on your computer**
+
+---
 
 ### Building the Docker container 
 
