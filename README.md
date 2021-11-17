@@ -35,7 +35,16 @@ from the package manager `yum` as well as
 + **SuiteSparse 5.4.0** and
 + **VTK 9.1.0**.
 
-Furthermore, the Docker container will contain **[Trilinos](https://github.com/trilinos/Trilinos/) in the [13.2 release version](https://github.com/trilinos/Trilinos/releases/tag/trilinos-release-13-2-0)**. The Trilinos installation will be a minimum built necessary for the FROSch exercises and tutorials. In case, you want to modify the configuration of Trilinos (e.g., enable debugging flags or additional packages), please modify the configure script `configurefiles/do-configure-trilinos.sh`. **Be careful when changing any of the paths** as they are chosen according to the configuration of the docker container; similarly, you can modify the configuration of VTK (`configurefiles/do-configure-vtk.sh`).
+Furthermore, the Docker container will contain **[Trilinos](https://github.com/trilinos/Trilinos/) in the [13.2 release version](https://github.com/trilinos/Trilinos/releases/tag/trilinos-release-13-2-0)**. The Trilinos installation will be a minimum built necessary for the FROSch exercises and tutorials. Among others, this includes the relevant Trilinos packages
+
++ **Amesos2** *Direct sparse solvers (e.g., Umfpack from Suitesparse)*
++ **Belos** *Iterative solvers*
++ **ShyLUDD_FROSch** *FROSch*
++ **Teuchos** *Tools, such as smart pointers, parameter lists, and many more...*
++ **Tpetra** *Parallel linear algebra*
+  (FROSch uses Tpetra through the **Xpetra** interface)
+
+In case, you want to modify the configuration of Trilinos (e.g., enable debugging flags or additional packages), please modify the configure script `configurefiles/do-configure-trilinos.sh`. **Be careful when changing any of the paths** as they are chosen according to the configuration of the docker container; similarly, you can modify the configuration of VTK (`configurefiles/do-configure-vtk.sh`).
 
 ### Installing Docker
 
@@ -45,7 +54,7 @@ Please first install Docker on your computer following from the [official websit
 
 ---
 
-**All following steps require that the software Docker is running on your computer**
+**All following steps require that the software Docker is running on your computer. Moreover, if Docker complains about permissions, you should execute the scripts with `sudo`**.
 
 ---
 
@@ -57,7 +66,7 @@ The Docker container can be built by executing the script
 ./build-container.sh
 ```
 
-in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, this step will take some time. 
+in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, **this step will take some time**. 
 
 In order to **test if the Trilinos and FROSch installation has been successful**, [run the docker container](#running-the-docker-container) (see below) and run the Trilinos tests using
 
@@ -66,7 +75,7 @@ cd /opt/trilinos/build
 ctest
 ```
 
-If all tests are successful, the Docker container is ready to be used.
+If all tests (approx. 150 tests) are successful, the Docker container is ready to be used.
 
 ### Running the Docker container 
 
@@ -86,3 +95,19 @@ In case you later want to remove the Docker image and the respective mounted vol
 ```
 
 in the main directory of the repository.
+
+## Exercises & tutorials
+
+Still missing ...
+
+## Additional references
+
++ **Trilinos**
+
+  + [Website](https://trilinos.github.io/index.html)
+  + [GitHub repository](https://github.com/trilinos/Trilinos)
+  + [Documentation](https://trilinos.github.io/documentation.html)
+  + [Getting started](https://trilinos.github.io/getting_started.html)
+  + [Hands-on tutorials](https://github.com/trilinos/Trilinos_tutorial/wiki/TrilinosHandsOnTutorial)
+
+  
