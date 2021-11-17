@@ -50,7 +50,7 @@ In case, you want to modify the configuration of Trilinos (e.g., enable debuggin
 
 [Docker](https://www.docker.com) can be easily installed on Linux, Windows, and MacOS and facilitates the delivery software in packages called containers, which are isolated and bundle their own software, libraries, and configuration files. 
 
-Please first install Docker on your computer following the instructions no the [official website](https://www.docker.com/get-started). 
+Please first install Docker on your computer following the instructions on the [official website](https://www.docker.com/get-started). 
 
 ---
 
