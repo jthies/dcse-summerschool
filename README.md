@@ -110,4 +110,33 @@ Still missing ...
   + [Getting started](https://trilinos.github.io/getting_started.html)
   + [Hands-on tutorials](https://github.com/trilinos/Trilinos_tutorial/wiki/TrilinosHandsOnTutorial)
 
-  
++ **FROSch**
+
+  + [Website](https://shylu-frosch.github.io)
+
+  + References:
+
+    ```
+    @article{Heinlein:2016:PIT,
+      author = {Heinlein, Alexander and Klawonn, Axel and Rheinbach, Oliver},
+      title = {A parallel implementation of a two-level overlapping {S}chwarz method with energy-minimizing coarse space based on {T}rilinos},
+      journal = {SIAM J. Sci. Comput.},
+      number = {6},
+      pages = {C713--C747},
+      volume = {38},
+      year = {2016},
+      doi = {10.1137/16M1062843},
+      note = {Preprint \url{http://tu-freiberg.de/sites/default/files/media/fakultaet-fuer-mathematik-und-informatik-fakultaet-1-9277/prep/2016-04_fertig.pdf}}
+    }
+    
+    @inbook{Heinlein:2020:FRO,
+      author = {Alexander Heinlein and Axel Klawonn and Sivasankaran Rajamanickam and Oliver Rheinbach},
+      title = {{FROSch}: A Fast And Robust Overlapping {S}chwarz Domain Decomposition Preconditioner Based on {X}petra in {T}rilinos},
+      booktitle = {Domain Decomposition Methods in Science and Engineering XXV},
+      pages = {176--184},
+      publisher = {Springer International Publishing},
+      year = {2020},
+      doi = {10.1007/978-3-030-56750-7_19},
+      note = {Preprint \url{https://kups.ub.uni-koeln.de/9018/}}
+    }
+    ```
