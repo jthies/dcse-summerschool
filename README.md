@@ -39,6 +39,7 @@ Furthermore, the Docker container will contain **[Trilinos](https://github.com/t
 
 + **Amesos2** *Direct sparse solvers (e.g., Umfpack from Suitesparse)*
 + **Belos** *Iterative solvers*
++ **Galeri** *Example linear systems*
 + **ShyLUDD_FROSch** *FROSch*
 + **Teuchos** *Tools, such as smart pointers, parameter lists, and many more...*
 + **Tpetra** *Parallel linear algebra*
