@@ -14,7 +14,6 @@
    !! INSERT CODE !!
    ----------------------------------------------------------------------------
    + ...
-   + ...
    ============================================================================
    */
    ```
@@ -28,15 +27,20 @@
 
    within a subfolder of the `build` directory corresponding to one exercise/solution, only this exercise/solution will be compiled.
 
-+ Each exercise comes with one or two parameter list files for specifying the settings of the iterative solver and the preconditioner.
-
-+ The programs can be executed as follows (here, for the solution):
++ The programs can be executed as follows:
 
    ```shell
    mpirun -n 4 ./solution.exe [options]
    ```
 
-   The list of all options can be printed with:
+   In this case, the test is run on 4 MPI ranks. Since FROSch **assumes a one-to-one correspondence of MPI ranks and subdomains**, the test automatically uses 4 subdomains. Moreover, the tests are based on a structured domain decomposition with
+
+   + $N^2$ subdomains in two dimensions and
+   + $N^3$ subdomains in three dimensions,
+   
+   for some $N$.
+   
++ The list of all options can be printed with:
 
    ```shell
    ./solution.exe --help
@@ -70,5 +74,4 @@
      --no-timers                          (default: --no-timers)
    ```
 
-   
-
++ Each exercise comes with one or two parameter list files for specifying the settings of the iterative solver and the preconditioner.
