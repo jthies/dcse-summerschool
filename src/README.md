@@ -7,7 +7,7 @@
 
 ## Description
 
-<img src="https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true | width=30" alt="solution" style="zoom:30%;" />
+![solution](https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true)
 
 ## Additional Remarks
 
@@ -44,7 +44,7 @@
    
    for some N.
    
-   <img src="https://github.com/searhein/frosch-demo/blob/main/images/subdomains.png?raw=true | width=30" alt="solution" style="zoom:30%;" />
+   ![subdomains](https://github.com/searhein/frosch-demo/blob/main/images/subdomains.png?raw=true)
    
 + The list of all options can be printed with:
 
