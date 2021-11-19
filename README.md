@@ -18,9 +18,9 @@ the repository provides **scripts to build a [Docker](https://www.docker.com) co
 
 **Note:** *Of course, the required software can also be installed directly, such that the examples can be compiled and run without the Docker container.*
 
-## Docker container 
+## Docker container
 
-The Docker container is based on the **latest version of CentOS**. Furthermore, after completing the built, it will contain (among others) 
+The Docker container is based on the **latest version of CentOS**. Furthermore, after completing the built, it will contain (among others)
 
 + **cmake**,
 + **git**,
@@ -49,9 +49,9 @@ In case, you want to modify the configuration of Trilinos (e.g., enable debuggin
 
 ### Installing Docker
 
-[Docker](https://www.docker.com) can be easily installed on Linux, Windows, and MacOS and facilitates the delivery software in packages called containers, which are isolated and bundle their own software, libraries, and configuration files. 
+[Docker](https://www.docker.com) can be easily installed on Linux, Windows, and MacOS and facilitates the delivery software in packages called containers, which are isolated and bundle their own software, libraries, and configuration files.
 
-Please first install Docker on your computer following the instructions on the [official website](https://www.docker.com/get-started). 
+Please first install Docker on your computer following the instructions on the [official website](https://www.docker.com/get-started).
 
 ---
 
@@ -59,7 +59,7 @@ Please first install Docker on your computer following the instructions on the [
 
 ---
 
-### Building the Docker container 
+### Building the Docker container
 
 The Docker container can be built by executing the script
 
@@ -67,7 +67,7 @@ The Docker container can be built by executing the script
 ./build-container.sh
 ```
 
-in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, **this step will take some time**. 
+in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, **this step will take some time**.
 
 In order to **test if the Trilinos and FROSch installation has been successful**, [run the docker container](#running-the-docker-container) (see below) and run the Trilinos tests using
 
@@ -78,7 +78,7 @@ ctest
 
 If all tests (approx. 150 tests) are successful, the Docker container is ready to be used.
 
-### Running the Docker container 
+### Running the Docker container
 
 In order to run the Docker container, just execute the script
 
@@ -88,7 +88,7 @@ In order to run the Docker container, just execute the script
 
 from the main directory of the repository. The script will **run the container** and **mount the current directory** (should be the main directory of the repository) as the local directory `/opt/frosch_demo` within the container.
 
-### Deleting the Docker container 
+### Deleting the Docker container
 
 In case you later want to remove the Docker image and the respective mounted volume (from running the container), just execute the script
 ```shell
@@ -99,7 +99,7 @@ in the main directory of the repository.
 
 ## Exercises & tutorials
 
-Still missing ...
+The exercises and corresponding explanations can be found in the subdirectory `src` (and the `README.md` files); click [here](https://github.com/searhein/frosch-demo/tree/main/src/).
 
 ## Additional references
 
@@ -129,7 +129,7 @@ Still missing ...
       doi = {10.1137/16M1062843},
       note = {Preprint \url{http://tu-freiberg.de/sites/default/files/media/fakultaet-fuer-mathematik-und-informatik-fakultaet-1-9277/prep/2016-04_fertig.pdf}}
     }
-    
+
     @inbook{Heinlein:2020:FRO,
       author = {Alexander Heinlein and Axel Klawonn and Sivasankaran Rajamanickam and Oliver Rheinbach},
       title = {{FROSch}: A Fast And Robust Overlapping {S}chwarz Domain Decomposition Preconditioner Based on {X}petra in {T}rilinos},
