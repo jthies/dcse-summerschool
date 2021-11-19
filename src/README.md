@@ -5,7 +5,11 @@
 + [Exercise 3](https://github.com/searhein/frosch-demo/tree/main/src/exercise-3) - Implementing a GDSW Preconditioner Using `FROSch`
 + [Solution](https://github.com/searhein/frosch-demo/tree/main/src/solution) contains an implementation that includes all the steps above.
 
-## Remarks
+## Description
+
+<img src="https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true | width=30" alt="solution" style="zoom:30%;" />
+
+## Additional Remarks
 
 + All the code that code that has to be changed is within the respective `main.cpp` file in each subdirectory. Most of the code is already prepared. In order to implement the exercises, it is sufficient to insert your code after the blocks
    ```
@@ -35,10 +39,12 @@
 
    In this case, the test is run on 4 MPI ranks. Since FROSch **assumes a one-to-one correspondence of MPI ranks and subdomains**, the test automatically uses 4 subdomains. Moreover, the tests are based on a structured domain decomposition with
 
-   + $`N^2`$ subdomains in two dimensions and
-   + $`N^3`$ subdomains in three dimensions,
+   + N^2 subdomains in two dimensions and
+   + N^3 subdomains in three dimensions,
    
-   for some $`N`$.
+   for some N.
+   
+   <img src="https://github.com/searhein/frosch-demo/blob/main/images/subdomains.png?raw=true | width=30" alt="solution" style="zoom:30%;" />
    
 + The list of all options can be printed with:
 
