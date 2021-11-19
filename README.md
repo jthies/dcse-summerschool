@@ -99,7 +99,42 @@ in the main directory of the repository.
 
 ## Exercises & tutorials
 
-The exercises and corresponding explanations can be found in the subdirectory `src` (and the `README.md` files); click [here](https://github.com/searhein/frosch-demo/tree/main/src/).
+The exercises and corresponding explanations can be found in the subdirectory `src` (and the `README.md` files); click [here](https://github.com/searhein/frosch-demo/tree/main/src/). In order to configure the corresponding cmake project and compile the tests, please perform the following steps:
+
+
+1. In case you are using the Docker container, run the Docker container as described [above](#running-the-docker-container).
+
+2. Enter the `build` directory.
+
+3. If you are using the Docker container, it is sufficient to execute the script
+   ```shell
+   ./run-container.sh
+   ```
+   In case, you installed the software requirements manually, you will have to adjust the paths
+   
+   ```shell
+   TRILINOS=/opt/trilinos/install
+   VTK=/opt/vtk/build
+   ...
+   -D Boost_LIBRARY_DIR:PATH="/usr/lib64/" \
+   -D Boost_INCLUDE_DIR:PATH="/usr/include/" \
+   ```
+   
+   in the script accordingly before executing the script. If you want to compile without VTK and Boost, you can disable `VTK_ENABLE` and `Boost_ENABLE`. This will automatically disable writing the solutions to files.
+
+   **Note:** *You can ignore the warning regarding the `Trilinos_DIR`*.
+   
+4. Once the configuration with cmake has finished successfully, you can compile all examples using
+
+   ```shell
+   make
+   ```
+
+5. To make sure that compilation has been successful and that you are ready to work on the exercises, please run:
+   
+   ```shell
+   ctest
+   ```
 
 ## Additional references
 
@@ -129,7 +164,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
       doi = {10.1137/16M1062843},
       note = {Preprint \url{http://tu-freiberg.de/sites/default/files/media/fakultaet-fuer-mathematik-und-informatik-fakultaet-1-9277/prep/2016-04_fertig.pdf}}
     }
-
+    
     @inbook{Heinlein:2020:FRO,
       author = {Alexander Heinlein and Axel Klawonn and Sivasankaran Rajamanickam and Oliver Rheinbach},
       title = {{FROSch}: A Fast And Robust Overlapping {S}chwarz Domain Decomposition Preconditioner Based on {X}petra in {T}rilinos},
