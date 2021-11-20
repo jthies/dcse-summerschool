@@ -42,7 +42,7 @@ In parts I and II of the prepared code, the system matrix as well as a right han
      typedef Belos::SolverManager<scalar_type,multivector_type,operatort_type> solver_type;
      ```
 
-**Numerical experiments:**
+## Numerical experiments
 
 Perform the following numerical experiments:
 

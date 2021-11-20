@@ -39,7 +39,7 @@ In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate
      prec->initialize(dimension,dofspernode,precList->get("Overlap",1),null,coordinates);
      ```
 
-     
+
 
 3. In order to be used as a preconditioner for the `Belos` iterative solver, the preconditioner object has to wrapped as a `Belos::OperatorT<multivector_type>` using:
 
@@ -53,7 +53,7 @@ In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate
    linear_problem->setRightPrec(belosPrec);
    ```
 
-**Numerical experiments:**
+## Numerical experiments
 
 Perform the following numerical experiments:
 
@@ -66,5 +66,3 @@ Perform the following numerical experiments:
       <Parameter name="Type"             type="string" value="RGDSW"/>
   </ParameterList>
   ```
-
-  

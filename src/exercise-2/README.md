@@ -39,7 +39,7 @@ Whereas, in exercise 1, we have implemented an iterative `Belos` solver for the 
    linear_problem->setRightPrec(belosPrec);
    ```
 
-**Numerical experiments:**
+## Numerical experiments
 
 Perform the following numerical experiments:
 
