@@ -7,11 +7,15 @@
 
 ## Description
 
+All exercises are based on an implementation of a **simple Laplace or elasticity model problem in two or three dimensions**, which is already prepared for you in the `main.cpp` files; the equation and dimension of the problem can be selected via the input parameters. The computational domain is the **unit square or cube** in two or three dimensions, respectively.
+
 ![solution](https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true)
+
+The discrete linear equation system is assembled using the Trilinos package `Galeri`; the Laplace equation is discretized using finite differences and the linear elasticity equation using finite elements.
 
 ## Additional Remarks
 
-+ All the code that code that has to be changed is within the respective `main.cpp` file in each subdirectory. Most of the code is already prepared. In order to implement the exercises, it is sufficient to insert your code after the blocks
++ All the code changes have to be made within the respective `main.cpp` file in the subdirectory of each exercise: most of the code is already prepared, and it is sufficient to insert your code after the blocks
    ```
    /*
    ============================================================================
@@ -79,5 +83,7 @@
      --timers               bool          Show timer overview: 'timers' or 'no-timers' (default)
      --no-timers                          (default: --no-timers)
    ```
+
+   **Note:** *This is the full list of parameter for the solution code; some of the parameters are not valid for the previous exercises.*
 
 + Each exercise comes with one or two parameter list files for specifying the settings of the iterative solver and the preconditioner.

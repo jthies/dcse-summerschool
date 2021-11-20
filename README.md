@@ -111,7 +111,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
    ./run-container.sh
    ```
    In case, you installed the software requirements manually, you will have to adjust the paths
-   
+
    ```shell
    TRILINOS=/opt/trilinos/install
    VTK=/opt/vtk/build
@@ -119,11 +119,11 @@ The exercises and corresponding explanations can be found in the subdirectory `s
    -D Boost_LIBRARY_DIR:PATH="/usr/lib64/" \
    -D Boost_INCLUDE_DIR:PATH="/usr/include/" \
    ```
-   
+
    in the script accordingly before executing the script. If you want to compile without VTK and Boost, you can disable `VTK_ENABLE` and `Boost_ENABLE`. This will automatically disable writing the solutions to files.
 
    **Note:** *You can ignore the warning regarding the `Trilinos_DIR`*.
-   
+
 4. Once the configuration with cmake has finished successfully, you can compile all examples using
 
    ```shell
@@ -131,10 +131,20 @@ The exercises and corresponding explanations can be found in the subdirectory `s
    ```
 
 5. To make sure that compilation has been successful and that you are ready to work on the exercises, please run:
-   
+
    ```shell
    ctest
    ```
+
+   **Note:** *`ctest` will perform a total of 8 tests:*
+   + *2D Laplace with a one-level Schwarz preconditioner*
+   + *2D Laplace with a GDSW preconditioner*
+   + *2D linear elasticity with a one-level Schwarz preconditioner*
+   + *2D linear elasticity with a GDSW preconditioner*
+   + *3D Laplace with a one-level Schwarz preconditioner*
+   + *3D Laplace with a GDSW preconditioner*
+   + *3D linear elasticity with a one-level Schwarz preconditioner*
+   + *3D linear elasticity with a GDSW preconditioner*
 
 ## Additional references
 
