@@ -90,6 +90,6 @@ The first part of each exercise is to **add the missing lines of code**, the sec
 
 + Each exercise comes with one or two parameter list files for specifying the settings of the iterative solver and the preconditioner.
 
-+ With the option `write`, each MPI rank will write one file with its part of the solution. These files can be opened and visualized using [Paraview](https://www.paraview.org).
++ With the option `--write`, each MPI rank will write one file with its part of the solution. These files can be opened and visualized using [Paraview](https://www.paraview.org).
    **Note:** *A good way of visualizing the global solution is by loading all the files at once and using the filter `Group Datasets`*.
 
