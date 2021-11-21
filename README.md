@@ -67,7 +67,7 @@ The Docker container can be built by executing the script
 ./build-container.sh
 ```
 
-in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, **this step will take some time**.
+in the main directory of the repository. Running this script will set up a docker image with the flag `frosch_demo` as described above. Since all the above mentioned software will be installed, **this step will take some time (> 1 hour)**.
 
 In order to **test if the Trilinos and FROSch installation has been successful**, [run the docker container](#running-the-docker-container) (see below) and run the Trilinos tests using
 
@@ -174,7 +174,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
       doi = {10.1137/16M1062843},
       note = {Preprint \url{http://tu-freiberg.de/sites/default/files/media/fakultaet-fuer-mathematik-und-informatik-fakultaet-1-9277/prep/2016-04_fertig.pdf}}
     }
-    
+
     @inbook{Heinlein:2020:FRO,
       author = {Alexander Heinlein and Axel Klawonn and Sivasankaran Rajamanickam and Oliver Rheinbach},
       title = {{FROSch}: A Fast And Robust Overlapping {S}chwarz Domain Decomposition Preconditioner Based on {X}petra in {T}rilinos},

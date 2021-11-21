@@ -33,7 +33,7 @@ Whereas, in exercise 1, we have implemented an iterative `Belos` solver for the 
    RCP<operatort_type> belosPrec = rcp(new xpetraop_type(prec));
    ```
 
-4. In order to use the `FROSch` preconditioner as a preconditioner for the `Belos` iteration, we use the following line:
+4. The `FROSch` preconditioner is then specified as the preconditioner for the `Belos` iteration using (already in the code):
 
    ```c++
    linear_problem->setRightPrec(belosPrec);
@@ -46,6 +46,6 @@ Perform the following numerical experiments:
 + How does the use of a one-level Schwarz preconditioner improve the convergence of the Krylov method? Compare the iteration counts against exercise 1.
 + Vary the width of the overlap using the parameter `"Overlap"`.
 + How does a variation of prolongation operator influence the convergence (parameter `"Combine Values in Overlap"`):
-  + standard additive Schwarz (`"Full"`)
-  + restricted additive Schwarz (`"Restricted"`)
-  + scaled additive Schwarz (`"Scaled"`)
+  + Standard additive Schwarz (`"Full"`)
+  + Restricted additive Schwarz (`"Restricted"`)
+  + Scaled additive Schwarz (`"Scaled"`)

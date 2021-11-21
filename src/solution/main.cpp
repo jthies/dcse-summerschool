@@ -18,7 +18,7 @@ int main (int argc, char *argv[])
     int dimension = 2; clp.setOption("dim",&dimension,"Dimension: 2 or 3");
     string equation = "laplace"; clp.setOption("eq",&equation,"Type of problem: 'laplace' or 'elasticity'");
     int M = 10; clp.setOption("m",&M,"Subdomain size: H/h (default 10)");
-    bool onelevel = true; clp.setOption("1lvl","2lvl",&onelevel,"Preconditioner type: '1lvl' or '2lvl'");
+    string preconditioner = "1lvl"; clp.setOption("prec",&preconditioner,"Preconditioner type: 'none', '1lvl', or '2lvl'");
     string xmlFile = "parameters-2d.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
     bool useEpetra = false; clp.setOption("epetra","tpetra",&useEpetra,"Linear algebra framework: 'epetra' or 'tpetra' (default)");
     int V = 0; clp.setOption("v",&V,"Verbosity Level: VERB_DEFAULT=-1, VERB_NONE=0 (default), VERB_LOW=1, VERB_MEDIUM=2, VERB_HIGH=3, VERB_EXTREME=4");
@@ -127,12 +127,12 @@ int main (int argc, char *argv[])
     if (verbose) cout << endl;
 
     RCP<operatort_type> belosPrec;
-    if (onelevel) {
+    if (!preconditioner.compare("1lvl")) {
         RCP<onelevelpreconditioner_type> prec(new onelevelpreconditioner_type(A,precList));
         prec->initialize(false);
         prec->compute();
         belosPrec = rcp(new xpetraop_type(prec));
-    } else {
+    } else if (!preconditioner.compare("2lvl")) {
         RCP<twolevelpreconditioner_type> prec(new twolevelpreconditioner_type(A,precList));
         if (!equation.compare("laplace")) {
             precList->set("Dimension",dimension);
@@ -143,6 +143,9 @@ int main (int argc, char *argv[])
         }
         prec->compute();
         belosPrec = rcp(new xpetraop_type(prec));
+    } else if (!preconditioner.compare("none")) {
+    } else {
+        FROSCH_ASSERT(false,"Preconditioner type unkown!")
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -154,7 +157,9 @@ int main (int argc, char *argv[])
     RCP<operatort_type> belosA = rcp(new xpetraop_type(A));
     RCP<linear_problem_type> linear_problem (new linear_problem_type(belosA,x,b));
     linear_problem->setProblem(x,b);
-    linear_problem->setRightPrec(belosPrec);
+    if (preconditioner.compare("none")) {
+        linear_problem->setRightPrec(belosPrec);
+    }
 
     solverfactory_type solverfactory;
     RCP<solver_type> solver = solverfactory.create(parameterList->get("Belos Solver Type","GMRES"),belosList);

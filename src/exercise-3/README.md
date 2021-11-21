@@ -47,7 +47,7 @@ In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate
    RCP<operatort_type> belosPrec = rcp(new xpetraop_type(prec));
    ```
 
-4. In order to use the `FROSch` preconditioner as a preconditioner for the `Belos` iteration, we use the following line:
+4. The `FROSch` preconditioner is then specified as the preconditioner for the `Belos` iteration using (already in the code):
 
    ```c++
    linear_problem->setRightPrec(belosPrec);

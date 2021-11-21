@@ -146,14 +146,7 @@ int main (int argc, char *argv[])
     RCP<operatort_type> belosA = rcp(new xpetraop_type(A));
     RCP<linear_problem_type> linear_problem (new linear_problem_type(belosA,x,b));
     linear_problem->setProblem(x,b);
-
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + use belosPrec as a right preconditioner for Belos
-    ============================================================================
-    */
+    linear_problem->setRightPrec(belosPrec);
 
     solverfactory_type solverfactory;
     RCP<solver_type> solver = solverfactory.create(parameterList->get("Belos Solver Type","GMRES"),belosList);
