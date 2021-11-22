@@ -186,3 +186,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
       note = {Preprint \url{https://kups.ub.uni-koeln.de/9018/}}
     }
     ```
+
+## Troubleshooting
+
++ When using a linux based system like Ubuntu, the Docker images and container might be stored in the root directory. If the root directory storage capacity is not sufficient please see [this post](https://www.guguweb.com/2019/02/07/how-to-move-docker-data-directory-to-another-location-on-ubuntu/) for changing the directory to another location.
