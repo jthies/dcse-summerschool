@@ -45,7 +45,9 @@ Perform the following numerical experiments:
 
 + How does the use of a one-level Schwarz preconditioner improve the convergence of the Krylov method? Compare the iteration counts against exercise 1.
 + Can you confirm the condition number bound 
+
   <img src="https://render.githubusercontent.com/render/math?math=\kappa(M^{-1}K) \leq C(1%2B\frac{1}{H \delta}))">, 
+
   where <img src="https://render.githubusercontent.com/render/math?math=C"> is a constant, <img src="https://render.githubusercontent.com/render/math?math=H"> is the subdomain size, and <img src="https://render.githubusercontent.com/render/math?math=\delta"> is the width of the overlap? In order to do so, investigate the iteration counts of a preconditioner Krylov method.
 + How does a variation of prolongation operator influence the convergence (parameter `"Combine Values in Overlap"`):
   + Standard additive Schwarz (`"Full"`): <img src="https://render.githubusercontent.com/render/math?math=M_{\rm OS-1}^{-1} K = \sum_{i=1}^N R_i^T K_i^{-1} R_i K">,
