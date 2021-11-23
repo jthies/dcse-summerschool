@@ -50,4 +50,10 @@ Perform the following numerical experiments:
   + `"CG"`
   + `"GMRES"`
   + `"BICGSTAB"`
+
++ The condition number of the system matrix is bounded as follows:
+
+  <img src="https://render.githubusercontent.com/render/math?math=\kappa(K) \leq \frac{C}{h^2}">, 
+  where <img src="https://render.githubusercontent.com/render/math?math=C"> is a constant, and <img src="https://render.githubusercontent.com/render/math?math=h"> is the element width. Can you confirm that the iteration count grows when the mesh is refined?
+
 + Vary the problem size by changing the number of subdomains and the subdomain size. How does the iteration count depend on the problem size?

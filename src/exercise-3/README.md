@@ -59,6 +59,10 @@ Perform the following numerical experiments:
 
 + How does adding a second level improves the convergence compared to using a one-level Schwarz preconditioner? Compare against the convergence for the solution of exercise 2.
 
++ Can you confirm the condition number bound 
+  <img src="https://render.githubusercontent.com/render/math?math=\kappa(M^{-1}K) \leq C (1%2B\frac{H}{\delta}) (1%2B\log(\frac{H}{h}))">, 
+  where <img src="https://render.githubusercontent.com/render/math?math=C"> is a constant, <img src="https://render.githubusercontent.com/render/math?math=h"> is the element width, <img src="https://render.githubusercontent.com/render/math?math=H"> is the subdomain size, and <img src="https://render.githubusercontent.com/render/math?math=\delta"> is the width of the overlap? In order to do so, investigate the iteration counts of a preconditioner Krylov method.
+
 + Compare against a reduced dimension GDSW (RGDSW) coarse space:
 
   ```xml
