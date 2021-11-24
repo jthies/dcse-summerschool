@@ -162,7 +162,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
 
   + References:
 
-    ```
+    ```latex
     @article{Heinlein:2016:PIT,
       author = {Heinlein, Alexander and Klawonn, Axel and Rheinbach, Oliver},
       title = {A parallel implementation of a two-level overlapping {S}chwarz method with energy-minimizing coarse space based on {T}rilinos},
@@ -174,7 +174,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
       doi = {10.1137/16M1062843},
       note = {Preprint \url{http://tu-freiberg.de/sites/default/files/media/fakultaet-fuer-mathematik-und-informatik-fakultaet-1-9277/prep/2016-04_fertig.pdf}}
     }
-
+    
     @inbook{Heinlein:2020:FRO,
       author = {Alexander Heinlein and Axel Klawonn and Sivasankaran Rajamanickam and Oliver Rheinbach},
       title = {{FROSch}: A Fast And Robust Overlapping {S}chwarz Domain Decomposition Preconditioner Based on {X}petra in {T}rilinos},
