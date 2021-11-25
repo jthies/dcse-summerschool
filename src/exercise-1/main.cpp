@@ -171,6 +171,7 @@ int main (int argc, char *argv[])
     double normRes = b->getVector(0)->norm2();
     if (verbose) cout << "2-Norm of the residual = " << normRes << endl;
 
+#if defined (HAVE_VTK) && defined (HAVE_Boost)
     // Write the solution to files (parallel)
     if (write) {
         ////////////////////////////////////////////////////////////////////////////
@@ -181,6 +182,7 @@ int main (int argc, char *argv[])
 
         writeVTK(equation,dimension,N,M,coordinates,x);
     }
+#endif
 
     if (verbose) cout << "Finished!" << endl;
 

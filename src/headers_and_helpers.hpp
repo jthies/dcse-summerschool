@@ -161,6 +161,7 @@ int assembleSystemMatrix (RCP<const Comm<int> > comm,
     return 0;
 }
 
+#if defined (HAVE_VTK) && defined (HAVE_Boost)
 template<int dimension, int dofsPerNode>
 int writeSolVTK (string type,
                  int N,
@@ -250,5 +251,6 @@ int writeVTK (string equation,
     }
     return -1;
 }
+#endif
 
 #endif
