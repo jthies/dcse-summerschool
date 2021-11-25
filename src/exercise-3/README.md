@@ -1,6 +1,6 @@
 # Exercise 3 - Implementing a GDSW Preconditioner Using `FROSch`
 
-In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate the convergence of the iterative solver as in exercise 2, we use a two-level Schwarz GDSW preconditioner:
+In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate the convergence of the iterative solver as in exercise 2, we use a two-level Schwarz GDSW preconditioner (see below for references):
 
 1. The one-level Schwarz preconditioner object is constructed using the matrix `A` and parameter list `precList` objects:
 
@@ -72,3 +72,86 @@ Perform the following numerical experiments:
       <Parameter name="Type"             type="string" value="RGDSW"/>
   </ParameterList>
   ```
+
+## References
+
++ For more details on GDSW and RGDSW methods:
+
+  ```latex
+  @article {Dohrmann:2008:DDL,
+      AUTHOR = {Dohrmann, Clark R. and Klawonn, Axel and Widlund, Olof B.},
+       TITLE = {Domain decomposition for less regular subdomains: overlapping
+                {S}chwarz in two dimensions},
+     JOURNAL = {SIAM J. Numer. Anal.},
+    FJOURNAL = {SIAM Journal on Numerical Analysis},
+      VOLUME = {46},
+        YEAR = {2008},
+      NUMBER = {4},
+       PAGES = {2153--2168},
+        ISSN = {0036-1429},
+     MRCLASS = {65N30 (65N55)},
+    MRNUMBER = {2399412},
+  MRREVIEWER = {Marius Ghergu},
+         DOI = {10.1137/070685841},
+         URL = {https://doi-org.tudelft.idm.oclc.org/10.1137/070685841},
+  }
+  
+  @article {Dohrmann:2017,
+      AUTHOR = {Dohrmann, Clark R. and Widlund, Olof B.},
+       TITLE = {On the design of small coarse spaces for domain decomposition
+                algorithms},
+     JOURNAL = {SIAM J. Sci. Comput.},
+    FJOURNAL = {SIAM Journal on Scientific Computing},
+      VOLUME = {39},
+        YEAR = {2017},
+      NUMBER = {4},
+       PAGES = {A1466--A1488},
+        ISSN = {1064-8275},
+     MRCLASS = {65N55 (65F08 65F10 65N30)},
+    MRNUMBER = {3686806},
+  MRREVIEWER = {Benjamin Wi-Lian Ong},
+         DOI = {10.1137/17M1114272},
+         URL = {https://doi-org.tudelft.idm.oclc.org/10.1137/17M1114272},
+  }
++ For details on the parallel implementation:
+
+  ```
+  @article {Heinlein:2016:PIT,
+      AUTHOR = {Heinlein, Alexander and Klawonn, Axel and Rheinbach, Oliver},
+       TITLE = {A parallel implementation of a two-level overlapping {S}chwarz
+                method with energy-minimizing coarse space based on
+                {T}rilinos},
+     JOURNAL = {SIAM J. Sci. Comput.},
+    FJOURNAL = {SIAM Journal on Scientific Computing},
+      VOLUME = {38},
+        YEAR = {2016},
+      NUMBER = {6},
+       PAGES = {C713--C747},
+        ISSN = {1064-8275},
+     MRCLASS = {65F10 (65F08 65N55 65Y05)},
+    MRNUMBER = {3579700},
+  MRREVIEWER = {Olexander S. Babanin},
+         DOI = {10.1137/16M1062843},
+         URL = {https://doi-org.tudelft.idm.oclc.org/10.1137/16M1062843},
+  }
+  
+  @incollection {Heinlein:2018:IPP,
+      AUTHOR = {Heinlein, Alexander and Klawonn, Axel and Rheinbach, Oliver
+                and Widlund, Olof B.},
+       TITLE = {Improving the parallel performance of overlapping {S}chwarz
+                methods by using a smaller energy minimizing coarse space},
+   BOOKTITLE = {Domain decomposition methods in science and engineering
+                {XXIV}},
+      SERIES = {Lect. Notes Comput. Sci. Eng.},
+      VOLUME = {125},
+       PAGES = {383--392},
+   PUBLISHER = {Springer, Cham},
+        YEAR = {2018},
+     MRCLASS = {65N55 (65Y05)},
+    MRNUMBER = {3989887},
+         DOI = {10.1007/978-3-319-93873-8\_3},
+         URL = {https://doi-org.tudelft.idm.oclc.org/10.1007/978-3-319-93873-8_3},
+  }
+  ```
+
+  
