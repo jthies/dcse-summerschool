@@ -136,15 +136,17 @@ The exercises and corresponding explanations can be found in the subdirectory `s
    ctest
    ```
 
-   **Note:** *`ctest` will perform a total of 8 tests:*
-   + *2D Laplace with a one-level Schwarz preconditioner*
-   + *2D Laplace with a GDSW preconditioner*
-   + *2D linear elasticity with a one-level Schwarz preconditioner*
-   + *2D linear elasticity with a GDSW preconditioner*
-   + *3D Laplace with a one-level Schwarz preconditioner*
-   + *3D Laplace with a GDSW preconditioner*
-   + *3D linear elasticity with a one-level Schwarz preconditioner*
-   + *3D linear elasticity with a GDSW preconditioner*
+   **Note:** *`ctest` will perform a total of 12 tests:*
+   + *2D Laplace model problem*
+   + *2D linear elasticity model problem*
+   + *3D Laplace model problem*
+   + *3D linear elasticity model problem*
+   
+     *solved by GMRES (Generalized minimal residual method)*
+   
+   + *without preconditioner*
+   + *with a one-level Schwarz preconditioner*
+   + *with a GDSW preconditioner*
 
 ## Additional references
 

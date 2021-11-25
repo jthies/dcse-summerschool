@@ -99,6 +99,7 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> I. Assemble the system matrix using Galeri\n";
     if (verbose) cout << endl;
 
+    // Assemble the system matrix (Laplace / linear elasticity)
     RCP<matrix_type> A;
     RCP<multivector_type> coordinates;
     assembleSystemMatrix(comm,xpetraLib,equation,dimension,N,M,A,coordinates);
@@ -111,11 +112,13 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> II. Construct iteration and right hand side vectors\n";
     if (verbose) cout << endl;
 
+    // solution / iteration vector
     RCP<const map_type> rowMap = A->getRowMap();
     RCP<multivector_type> x = multivectorfactory_type::Build(rowMap,1);
     x->putScalar(0.0);
     x->describe(*out,verbosityLevel);
 
+    // right hand side vector
     RCP<multivector_type> b = multivectorfactory_type::Build(rowMap,1);
     b->putScalar(1.0);
     b->describe(*out,verbosityLevel);
@@ -126,22 +129,22 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> III. Construct Schwarz Preconditioner\n";
     if (verbose) cout << endl;
 
+    // FROSch preconditioner for Belos
     RCP<operatort_type> belosPrec;
     if (!preconditioner.compare("1lvl")) {
-        RCP<onelevelpreconditioner_type> prec(new onelevelpreconditioner_type(A,precList));
-        prec->initialize(false);
-        prec->compute();
+        RCP<onelevelpreconditioner_type> prec(new onelevelpreconditioner_type(A,precList)); // one-level Schwarz preconditioner
+        prec->initialize(false); // setup part 1: initialize
+        prec->compute(); // setup part 2: compute
         belosPrec = rcp(new xpetraop_type(prec));
     } else if (!preconditioner.compare("2lvl")) {
-        RCP<twolevelpreconditioner_type> prec(new twolevelpreconditioner_type(A,precList));
+        RCP<twolevelpreconditioner_type> prec(new twolevelpreconditioner_type(A,precList)); // two-level Schwarz preconditioner
         if (!equation.compare("laplace")) {
-            precList->set("Dimension",dimension);
-            prec->initialize(false);
+            prec->initialize(false); // setup part 1: initialize
         } else {
-            precList->set("Null Space Type","Linear Elasticity");
-            prec->initialize(dimension,dimension,precList->get("Overlap",1),null,coordinates);
+            precList->set("Null Space Type","Linear Elasticity"); // Specify that the coarse space for linear elasticity has to be built
+            prec->initialize(dimension,dimension,precList->get("Overlap",1),null,coordinates); // setup part 1: initialize
         }
-        prec->compute();
+        prec->compute(); // setup part 2: compute
         belosPrec = rcp(new xpetraop_type(prec));
     } else if (!preconditioner.compare("none")) {
     } else {
@@ -154,17 +157,20 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> IV. Solve the linear equation system using GMRES\n";
     if (verbose) cout << endl;
 
+    // Set up the linear equation system for Belos
     RCP<operatort_type> belosA = rcp(new xpetraop_type(A));
     RCP<linear_problem_type> linear_problem (new linear_problem_type(belosA,x,b));
     linear_problem->setProblem(x,b);
     if (preconditioner.compare("none")) {
-        linear_problem->setRightPrec(belosPrec);
+        linear_problem->setRightPrec(belosPrec); // Specify the preconditioner
     }
 
+    // Build the Belos iterative solver
     solverfactory_type solverfactory;
     RCP<solver_type> solver = solverfactory.create(parameterList->get("Belos Solver Type","GMRES"),belosList);
     solver->setProblem(linear_problem);
-    solver->solve();
+    solver->solve(); // Solve the linear system
+
     x->describe(*out,verbosityLevel);
 
     ////////////////////////////////////////////////////////////////////////////
@@ -173,10 +179,12 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> V. Test solution\n";
     if (verbose) cout << endl;
 
+    // Compute the 2-norm of the residual
     A->apply(*x,*b,Teuchos::NO_TRANS,static_cast<scalar_type> (-1.0),static_cast<scalar_type> (1.0));
     double normRes = b->getVector(0)->norm2();
     if (verbose) cout << "2-Norm of the residual = " << normRes << endl;
 
+    // Write the solution to files (parallel)
     if (write) {
         ////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////
@@ -195,7 +203,7 @@ int main (int argc, char *argv[])
     comm->barrier();
     stackedTimer->stop("FROSch Example");
     StackedTimer::OutputOptions options;
-    options.output_fraction = options.output_minmax = true; //options.output_histogram =
+    options.output_fraction = options.output_minmax = true;
     if (timers) stackedTimer->report(*out,comm,options);
 
     return 0;

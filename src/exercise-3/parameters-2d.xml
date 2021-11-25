@@ -3,7 +3,7 @@
     <ParameterList name="Belos List">
         <Parameter name="Block Size"                       type="int"    value="1"/>
         <Parameter name="Convergence Tolerance"            type="double" value="1e-8"/>
-        <Parameter name="Maximum Iterations"               type="int"    value="100"/>
+        <Parameter name="Maximum Iterations"               type="int"    value="1000"/>
         <Parameter name="Verbosity"                        type="int"    value="33" />
         <Parameter name="Output Style"                     type="int"    value="1" />
         <Parameter name="Output Frequency"                 type="int"    value="10"/>
@@ -12,6 +12,7 @@
     <ParameterList name="Preconditioner list">
         <Parameter name="OverlappingOperator Type"         type="string" value="AlgebraicOverlappingOperator"/>
         <Parameter name="CoarseOperator Type"              type="string" value="IPOUHarmonicCoarseOperator"/>
+        <Parameter name="Dimension"                        type="int"    value="2"/>
         <Parameter name="Overlap"                          type="int"    value="10"/>
         <ParameterList name="AlgebraicOverlappingOperator">
             <Parameter name="Combine Values in Overlap"    type="string" value="Full"/>

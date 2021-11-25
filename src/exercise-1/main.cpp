@@ -98,6 +98,7 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> I. Assemble the system matrix using Galeri\n";
     if (verbose) cout << endl;
 
+    // Assemble the system matrix (Laplace / linear elasticity)
     RCP<matrix_type> A;
     RCP<multivector_type> coordinates;
     assembleSystemMatrix(comm,xpetraLib,equation,dimension,N,M,A,coordinates);
@@ -110,12 +111,14 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> II. Construct iteration and right hand side vectors\n";
     if (verbose) cout << endl;
 
+    // solution / iteration vector
     RCP<const map_type> rowMap = A->getRowMap();
-    RCP<multivector_type> x = multivectorfactory_type::Build(rowMap,1); // Solution vector
+    RCP<multivector_type> x = multivectorfactory_type::Build(rowMap,1);
     x->putScalar(0.0);
     x->describe(*out,verbosityLevel);
 
-    RCP<multivector_type> b = multivectorfactory_type::Build(rowMap,1); // Right hand side vector
+    // right hand side vector
+    RCP<multivector_type> b = multivectorfactory_type::Build(rowMap,1);
     b->putScalar(1.0);
     b->describe(*out,verbosityLevel);
 
@@ -163,10 +166,12 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> V. Test solution\n";
     if (verbose) cout << endl;
 
+    // Compute the 2-norm of the residual
     A->apply(*x,*b,Teuchos::NO_TRANS,static_cast<scalar_type> (-1.0),static_cast<scalar_type> (1.0));
     double normRes = b->getVector(0)->norm2();
     if (verbose) cout << "2-Norm of the residual = " << normRes << endl;
 
+    // Write the solution to files (parallel)
     if (write) {
         ////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////////////////////////
@@ -185,7 +190,7 @@ int main (int argc, char *argv[])
     comm->barrier();
     stackedTimer->stop("FROSch Example");
     StackedTimer::OutputOptions options;
-    options.output_fraction = options.output_minmax = true; //options.output_histogram =
+    options.output_fraction = options.output_minmax = true;
     if (timers) stackedTimer->report(*out,comm,options);
 
     return 0;
