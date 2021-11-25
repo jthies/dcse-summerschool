@@ -126,7 +126,7 @@ int main (int argc, char *argv[])
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
     if (verbose) cout << endl;
-    if (verbose) cout << ">> III. Construct Schwarz Preconditioner\n";
+    if (verbose) cout << ">> III. Construct Schwarz preconditioner\n";
     if (verbose) cout << endl;
 
     // FROSch preconditioner for Belos
