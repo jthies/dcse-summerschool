@@ -108,7 +108,7 @@ The exercises and corresponding explanations can be found in the subdirectory `s
 
 3. If you are using the Docker container, it is sufficient to execute the script
    ```shell
-   ./run-container.sh
+   ./do-configure.sh
    ```
    In case, you installed the software requirements manually, you will have to adjust the paths
 
