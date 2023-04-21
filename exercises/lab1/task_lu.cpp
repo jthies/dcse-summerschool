@@ -66,10 +66,10 @@
 #include <thread>
 #include <vector>
 
-#include "omp.h"
+#include <omp.h>
 
 #if USE_BLAS
-#include "cblas.h"
+#include <mkl_cblas.h>
 #endif
 
 // 1. LU building blocks

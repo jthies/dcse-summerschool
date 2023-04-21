@@ -14,3 +14,9 @@
 2. Insert OpenMP pragma's to achieve task-parallel factorization of each tile. Measure the scalability.
 3. Can you achieve task-based parallelization across tiles? Measure the scalability again
 4. Measure key performnace metrics on up to 48 cores
+
+## Setup on DelftBlue
+
+- load the Intel compilers and libraries using
+  ``module load 2022r2 intel/oneapi-all``
+- type 'make' to compile the code
