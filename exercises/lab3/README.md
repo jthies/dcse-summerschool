@@ -1,5 +1,15 @@
 # Communication-avoiding Krylov Methods
 
+(Introductory text)
+
+## What you will practice here
+
+- evaluating numerical and computational efficiency of various algorithms
+- selecting suitable solvers and preconditioners for a problem
+- working with a large open source software package
+
+## Your tasks
+
 1. Try out different variants
 
 - s-step GMRES

@@ -14,7 +14,7 @@ and by $I \mtimes D + D \mtimes I$ in 2D.
     2. Implement 2D operator using DGEMM
     3. compute smallest eigenvalue of the 2D operator, use nvprof to see what are the bottlenecks and hotspots now
 
-# Your tasks
+## Your tasks
 
 (detailed description of the steps they should take, with references to code/scripts/commands)
 
