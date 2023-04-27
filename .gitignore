@@ -3,6 +3,10 @@
 *.bak
 *.swp
 
+# CMake build directories
+build
+
+
 # Prerequisites
 *.d
 
