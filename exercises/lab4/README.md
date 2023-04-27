@@ -4,21 +4,14 @@
 
 ## What you will practice here
 
-- calling BLAS/lapack routines
+- measuring performance characteristics using likwid
 - applying roofline analysis
-- selecting orthogonalization strategies for 
+- selecting orthogonalization strategies for performance and stability
 
 
 ## Your tasks
 
-## Ideas for this lab (to be worked out)
-
-- RACE?
-- TSQR vs. SVQB + roofline model
-
-
-Ideas: implement SVQB, measure GEMM performance for tall-skinny matrices,
-implement your own Householder-TSQR given some code skeleton
-(perhaps task-based to close the loop to the first exercise?)
-
-
+- using likwid, measure data traffic for the matrix powers kernel in the Trilinos implementation of s-step GMRES, plot it against s.
+- measure the computational intensity of the block orthogonalization, plot against s.
+- compare orthogonalization variants: MGS vs. CGS, SVQB/CholQR vs. TSQR
+- (if time permits): implement your own task-based Q-less TSQR
