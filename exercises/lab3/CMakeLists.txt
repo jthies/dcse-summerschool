@@ -11,3 +11,8 @@ message(STATUS "${Trilinos_INCLUDE_DIRS}")
 
 target_include_directories(ifpack_driver.x PRIVATE ${Trilinos_INCLUDE_DIRS})
 target_link_libraries(ifpack_driver.x ${Trilinos_LIBRARIES})
+
+find_package(likwid REQUIRED CONFIG)
+target_link_libraries(ifpack_driver.x ${LIKWID_LIBRARY})
+target_include_directories(ifpack_driver.x PRIVATE ${LIKWID_INCLUDE_DIR})
+add_definitions(-DLIKWID_PERFMON)
