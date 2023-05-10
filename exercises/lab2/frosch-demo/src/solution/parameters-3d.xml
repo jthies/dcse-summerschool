@@ -18,7 +18,7 @@
             <Parameter name="Combine Values in Overlap"    type="string" value="Full"/>
             <ParameterList name="Solver">
                 <Parameter name="SolverType"               type="string" value="Amesos2"/>
-                <Parameter name="Solver"                   type="string" value="Umfpack"/>
+                <Parameter name="Solver"                   type="string" value="Klu"/>
             </ParameterList>
         </ParameterList>
         <ParameterList name="IPOUHarmonicCoarseOperator">
@@ -32,11 +32,11 @@
             </ParameterList>
             <ParameterList name="ExtensionSolver">
                 <Parameter name="SolverType"               type="string" value="Amesos2"/>
-                <Parameter name="Solver"                   type="string" value="Umfpack"/>
+                <Parameter name="Solver"                   type="string" value="Klu"/>
             </ParameterList>
             <ParameterList name="CoarseSolver">
                 <Parameter name="SolverType"               type="string" value="Amesos2"/>
-                <Parameter name="Solver"                   type="string" value="Umfpack"/>
+                <Parameter name="Solver"                   type="string" value="Klu"/>
             </ParameterList>
         </ParameterList>
     </ParameterList>
