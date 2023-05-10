@@ -10,11 +10,8 @@ VTK=/opt/vtk/build
 
 cmake \
   -D Trilinos_PATH:PATH="${TRILINOS}" \
-  -D VTK_ENABLE:BOOL=ON \
-  -D VTK_DIR:PATH="${VTK}" \
-  -D Boost_ENABLE:BOOL=ON \
-  -D Boost_LIBRARY_DIR:PATH="/usr/lib64/" \
-  -D Boost_INCLUDE_DIR:PATH="/usr/include/" \
+  -D VTK_ENABLE:BOOL=OFF \
+  -D Boost_ENABLE:BOOL=OFF \
   -D CMAKE_BUILD_TYPE:STRING=RELEASE \
   -D BUILD_SHARED_LIBS:BOOL=ON \
   -D CMAKE_VERBOSE_MAKEFILE:BOOL=OFF \
