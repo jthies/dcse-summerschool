@@ -1,7 +1,7 @@
 # Executable
-add_executable(solution-example-1.exe main.cpp)
+add_executable(solution-exercise-1.exe main.cpp)
 
-target_link_libraries(solution-example-1.exe
+target_link_libraries(solution-exercise-1.exe
   ${LIBS}
   )
 
