@@ -10,6 +10,8 @@ and benchmarking the code.
 
 - The matrix is stored in tile-layout:
 
+![column-major vs. tile layout of a dense matrix](tile-layout.png)
+
 <object data="tile-layout.pdf" type="application/pdf" width="700px" height="700px">
     <embed src="tile-layout.pdf">
         <p>This browser does not support PDFs. Please download the PDF to view it: <a href="tile-layout.pdf">Download PDF</a>.</p>
