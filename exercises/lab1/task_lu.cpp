@@ -26,11 +26,11 @@
 // only powers of two valid.
 // All combinations on this 'grid' are benchmarked.
 #define BENCH_GRID_MIN_LEN 4
-#define BENCH_GRID_MAX_LEN 64   //128
+#define BENCH_GRID_MAX_LEN 64 //128
 #define BENCH_BLOCK_MIN_LEN 32
 #define BENCH_BLOCK_MAX_LEN 128 //256
 // 1 => Loop-parallelized, 2 => Task-parallelized
-#define BENCH_FACTORIZE 2
+#define BENCH_FACTORIZE 0
 //
 // MISC
 // If set performs a full correctness check.
@@ -169,23 +169,23 @@ void factorize_loop_parallelized(
 
     // With this version, all parallelism is within each iteration.
 
-    #pragma omp parallel
+    // TODO: insert OpenMP statements
+    //       such that the j-loops are performed in parallel
+
     for (auto i = 0; i < num_blocks; ++i) {
-        #pragma omp single
+
         diag_fact(blocks[i][i]);
 
-        #pragma omp for nowait
         for (auto j = i + 1; j < num_blocks; ++j) {
             row_update(blocks[i][j], blocks[i][i]);
         }
 
-        #pragma omp for
         for (auto j = i + 1; j < num_blocks; ++j) {
             col_update(blocks[j][i], blocks[i][i]);
         }
 
-        // Without collapse that would be similar to schedule(static, n).
-        #pragma omp for collapse(2)
+        // try using the 'collapse' clause to increase parallism in
+        // when updating the trailing matrix for the next iteration.
         for (auto j = i + 1; j < num_blocks; ++j) {
             for (auto k = i + 1; k < num_blocks; ++k) {
                 trail_update(blocks[j][k], blocks[i][k], blocks[j][i]);
@@ -205,31 +205,32 @@ void factorize_task_parallelized(
     // A nullpointer for whatever reason is proven to be silently incorrect.
     float task_p [nb * nb];
 
+    // TODO: insert #pragma omp task statmements in front of the function calls 
+    //       diag_factor, row_update, col_update and trail_update to parallelize
+    // the LU decomposition.
+    //       Make sure the tasks are executed in the right order by adding dependencies.
+    //
+    //       Example:
+    //          #pragma omp task depend(inout : task_p[j*nb+i])   \
+    //                           depend(in : task_p[i * nb + i])
+
+// Note: only a single thread should build the dependency graph
 #pragma omp parallel
 #pragma omp single
     for (auto i = 0; i < nb; ++i) {
 
-        // Use priority(1) to suggest priorized execution to the runtime.
-        #pragma omp task depend(inout : task_p[i * nb + i]) priority(1)
+        // Hint: Use priority(1) to suggest priorized execution to the runtime
+        //       because later tasks in this row and column depend
         diag_fact(blocks[i][i]);
 
         for (auto j = i + 1; j < nb; ++j) {
-            #pragma omp task depend(inout : task_p[j * nb + i])   \
-                             depend(in : task_p[i * nb + i]) 
             col_update(blocks[j][i], blocks[i][i]);
 
-            #pragma omp task depend(inout : task_p[i * nb + j])   \
-                             depend(in : task_p[i * nb + i]) 
             row_update(blocks[i][j], blocks[i][i]);
         }
 
         for (auto j = i + 1; j < nb; ++j) {
             for (auto k = i + 1; k < nb; ++k) {
-                #pragma omp task depend(inout :                     \
-                                            task_p[j * nb + k])     \
-                                 depend(in :                        \
-                                            task_p[i * nb + k],     \
-                                            task_p[j * nb + i])
                 trail_update(blocks[j][k], blocks[i][k], blocks[j][i]);
             }
         }
