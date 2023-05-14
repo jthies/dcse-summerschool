@@ -8,18 +8,14 @@ In the given code template, most OpenMP statements need to be inserted, but a
 working sequential LU decomposition is provded, as well as a framework for testing
 and benchmarking the code. 
 
-- The matrix is stored in tile-layout:
+- The matrix is stored as a 2D "grid" of tiles (or "blocks"):
 
 ![column-major vs. tile layout of a dense matrix](tile-layout.png)
 
-<object data="tile-layout.pdf" type="application/pdf" width="700px" height="700px">
-    <embed src="tile-layout.pdf">
-        <p>This browser does not support PDFs. Please download the PDF to view it: <a href="tile-layout.pdf">Download PDF</a>.</p>
-    </embed>
-</object>
-                
-
-In the code, this is referred to as a "grid of blocks".
+The grid is represented as a ``std::vector<std::vector<block>>`` in column-major order,
+so the block in row ``i`` and column ``j`` is accessed by ``blocks[i][j]``. The block itself
+is stored as a 1D array (i.e., ``std::vector<float>``), and the element in row ``i`` and column ``j``
+is accessed using index arithmetic: ``block[j*n+i]``.
 
 This [OpenMP cheatsheet](https://www.openmp.org/wp-content/uploads/OpenMP-4.0-C.pdf) may come in handy...
 
