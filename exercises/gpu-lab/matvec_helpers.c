@@ -46,7 +46,7 @@ void fillVector(real *a, int m, int offset)
 }
 
 /* Next function simply prints a vector on the screen. */
-void showVector(char *name, real *a, int m)
+void showVector(char const* name, real *a, int m)
 {
    long y;
 
@@ -61,48 +61,38 @@ void showVector(char *name, real *a, int m)
    printf("\n");
 }
 
-real **initMatrix(int n, int m)
+real *initMatrix(int n, int m)
 {
    int t;
    real *ptr;
-   real **mtr;
-   
+
    ptr = (real  *) calloc(n * m, sizeof(real)); // rows x columns
-   mtr = (real **) calloc(n, sizeof(real *));   // rows 
-   
-   if(ptr == NULL || mtr == NULL)
+
+   if(ptr == NULL)
    {
       fprintf(stderr,"Malloc for matrix strip failed !\n");
       exit(1);
    }
-   
-   for(t=0;t<m;t++)
-   {
-      mtr[t] = ptr;
-      ptr   += n;
-   }
-   
-   return mtr;
+   return ptr;
 }
 
 /* Next function frees a matrix allocated with initMatrix() */
-void freeMatrix(real **mtr)
+void freeMatrix(real *mtr)
 {
-   free(mtr[0]);
    free(mtr);
 }
 
-void fillMatrix(real **a, int n, int m, int offset)
+void fillMatrix(real *a, int n, int m, int offset)
 {  long x,y;
    
 #pragma omp parallel for schedule(static)
    for(y=0; y<m; y++)
      for(x=0; x<n; x++)
-       a[y][x] = (real) (x + y + offset);
+       a[y*n+x] = (real) (x + y + offset);
 }
 
 /* Next function simply prints a matrix on the screen. */
-void showMatrix(char *name, real **a, int n, int m)
+void showMatrix(char const* name, real *a, int n, int m)
 {
    long x,y;
 
@@ -119,7 +109,7 @@ void showMatrix(char *name, real **a, int n, int m)
       x = n - 1;
 # endif
       {
-         printf("%s[%02lu][%02lu]=%6.2f  ",name,y,x,a[y][x]);
+         printf("%s[%02lu][%02lu]=%6.2f  ",name,y,x,a[y*n+x]);
       }
       printf("\n");
    }

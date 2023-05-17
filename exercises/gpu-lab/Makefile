@@ -10,8 +10,13 @@ OPENBLAS_INC=-I${OPENBLAS_ROOT}/include
 OPENBLAS_LIB=${OPENBLAS_ROOT}/lib/libopenblas.a
 NVCC_FLAGS=-O3 --gpu-architecture=sm_70
 
-cpu: matvecprod-cpu.x matvecprod-cpu-openblas.x matvecprod-cpu-mkl.x
-gpu: matvecprod-globalmem-simple_um.x matvecprod-sharedmem-simple_um.x
+CUDA_SOURCES=matvecprod-main.cu matvec_helpers.cu matvec_helpers_um.cu
+
+CPU_DRIVERS=matvecprod-cpu.x matvecprod-cpu-openblas.x matvecprod-cpu-mkl.x
+GPU_DRIVERS=matvecprod-globalmem-simple_um.x matvecprod-sharedmem-simple_um.x matvecprod-sharedmem-blocks_um.x matvecprod-offload.x matvecprod-cublas.x
+
+cpu: ${CPU_DRIVERS}
+gpu: ${GPU_DRIVERS}
 
 matvecprod-cpu.x: matvecprod-cpu.c matvec_helpers.c
 	gcc ${COMPILE_FLAGS} -fopenmp -o $@ $< matvec_helpers.c
@@ -22,11 +27,22 @@ matvecprod-cpu-openblas.x: matvecprod-cpu.c matvec_helpers.c
 matvecprod-cpu-mkl.x: matvecprod-cpu.c matvec_helpers.c
 	icc ${COMPILE_FLAGS} -qopenmp -qmkl=parallel -o $@ $< matvec_helpers.c
 
-%.x: %.cu
-	nvcc ${NVCC_FLAGS} -o $@ $<
+%.x: %.cu ${CUDA_SOURCES}
+	nvcc ${NVCC_FLAGS} -o $@ $< ${CUDA_SOURCES}
 
 
-.PHONY: clean
+matvecprod-cublas.x: matvecprod-cublas.cu
+	nvcc ${NVCC_FLAGS} -o $@ $< ${CUDA_SOURCES} -lcublas
 
-clean:
-	-rm *.x *.o
+matvecprod-offload.x: matvecprod-cpu.c matvec_helpers.c
+	nvc++ -O3 -mp -target=gpu -DUSE_OMP_TARGET -Minfo=accel -o $@ $< matvec_helpers.c
+
+.PHONY: clean-cpu clean-gpu clean
+
+clean-cpu:
+	-rm ${CPU_DRIVERS}
+
+clean-gpu:
+	-rm ${GPU_DRIVERS}
+
+clean: clean-cpu clean-gpu
