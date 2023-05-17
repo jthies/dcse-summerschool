@@ -28,7 +28,23 @@ typedef float real;
 /* These are simple routines stored in a separate source file as they are not really
  * important for understanding this example. */ 
 
-#if defined(USE_BLAS) || defined(USE_MKL)
+#ifdef USE_OPENMP
+void matvecprod(real *A, real const* x, real *b, int m, int n)
+{
+   int i,j;
+
+#pragma omp parallel for schedule(static)
+   for(i=0;i<m;i++)
+   {
+      b[i] = 0;
+#pragma omp simd
+      for(j=0;j<n;j++)
+      {
+         b[i] += x[j] * A[i*n+j];
+      }
+   }
+}
+#elif defined(USE_BLAS) || defined(USE_MKL)
 void matvecprod(float **A, float const* x, float *b, int m, int n)
 {
    float alpha = 1.0f, beta = 0.0f;
@@ -45,22 +61,6 @@ void matvecprod(real *A, real const* x, real *b, int m, int n)
    {
       b[i] = 0;
       for(int j=0;j<n;j++)
-      {
-         b[i] += x[j] * A[i*n+j];
-      }
-   }
-}
-#else
-void matvecprod(real *A, real const* x, real *b, int m, int n)
-{
-   int i,j;
-
-#pragma omp parallel for schedule(static)
-   for(i=0;i<m;i++)
-   {
-      b[i] = 0;
-#pragma omp simd
-      for(j=0;j<n;j++)
       {
          b[i] += x[j] * A[i*n+j];
       }
