@@ -19,10 +19,13 @@ cpu: ${CPU_DRIVERS}
 gpu: ${GPU_DRIVERS}
 
 matvecprod-cpu.x: matvecprod-cpu.c matvec_helpers.c
-	gcc ${COMPILE_FLAGS} -fopenmp -o $@ $< matvec_helpers.c
+	gcc ${COMPILE_FLAGS} -fopenmp -DUSE_OPENMP -o $@ $< matvec_helpers.c
 
 matvecprod-cpu-openblas.x: matvecprod-cpu.c matvec_helpers.c
 	gcc ${COMPILE_FLAGS} -fopenmp -DUSE_BLAS ${OPENBLAS_INC} -o $@ $< matvec_helpers.c ${OPENBLAS_LIB}
+
+matvecprod-offload.x: matvecprod-cpu.c matvec_helpers.c
+	nvc++ -O3 -mp -target=gpu -DUSE_OMP_TARGET -Minfo=accel -o $@ $< matvec_helpers.c
 
 matvecprod-cpu-mkl.x: matvecprod-cpu.c matvec_helpers.c
 	icc ${COMPILE_FLAGS} -qopenmp -qmkl=parallel -o $@ $< matvec_helpers.c
@@ -33,9 +36,6 @@ matvecprod-cpu-mkl.x: matvecprod-cpu.c matvec_helpers.c
 
 matvecprod-cublas.x: matvecprod-cublas.cu
 	nvcc ${NVCC_FLAGS} -o $@ $< ${CUDA_SOURCES} -lcublas
-
-matvecprod-offload.x: matvecprod-cpu.c matvec_helpers.c
-	nvc++ -O3 -mp -target=gpu -DUSE_OMP_TARGET -Minfo=accel -o $@ $< matvec_helpers.c
 
 .PHONY: clean-cpu clean-gpu clean
 
