@@ -1,26 +1,51 @@
-# GPU lab: BLAS 1/2/3 Operations in an Iterative Eigenvalue Solver
+# GPU lab: Dense Matrix-Vector Multiplication on GPUs
 
-In this exercise, we will compute the smallest eigenvlaue of the Laplace operator discretized using
-a pseudo-spectral method. The operator is represented by a dense matrix $L$ in one space dimension,
-and by $I \mtimes D + D \mtimes I$ in 2D.
+In this exercise, we will investigate the performance of dense  general matrix-vector (GEMV) product
+with various GPU implementations:
+```math
+b=A\cdot x
+A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}&{m}, b \in \mathbb{R}^{n}.
+```
 
-- Problem 1: Lanczos method for computing the smallest eigenvalue of a dense matrix
-    1. implement DGEMV using CUDA and a BLAS3-call, compare performance
-    2. implement dot and axpby operations using CUDA and/or a BLAS1 call, compare performance
-    3. put it all together in a given Lanczos code skeleton
-    4. profile the complete eigensolver using nvprof
-- Problem 2: Same for 2D version that can be written as (I (x) C) + (C (x) I)
-    1. Extend your own DGEMV to DGEMM, compare to BLAS3-call
-    2. Implement 2D operator using DGEMM
-    3. compute smallest eigenvalue of the 2D operator, use nvprof to see what are the bottlenecks and hotspots now
+- Note that you should compile the GPU examples below on the GPU node itself, therefore,
+the ``make`` commands are included in the corresponding job script.
+- Before compiling the CPU version, type ``source env-cpu.sh`` to load the right compilers and libraries.
+- Test that your implementation produces correct results by comparing the printed values of b with the ones
+obtained with the sequential and/or BLAS implementations.
+- If you get stuck, you may look in the ``solution`` folder for owrking versions.
 
 ## Your tasks
 
-(detailed description of the steps they should take, with references to code/scripts/commands)
-
-- what is the computational intensity of the operation (in Flops/Byte)?
-- implement GEMV using CUDA, compare performance with CUBLAS and performance model
-- implement axpy and dot, run simple tests and benchmarks
-- take a Lanczos code, do memory allocation using CUDA managed memory, compute largest eigenvalue of a dense matrix
-- compare overall performance CPU/GPu
-- Extend your operator to a 2D problem of the form (I (x) C) + (C (x) I) and implement it using GEMM, compare again CPU/GPU.
+1. What is the computational intensity of the operation (in Flops/Byte)? Is this operation compute- or memory-bound?
+2. Insert OpenMP pragma's to parallelize the first version of ``matvecprod`` in ``matvecprod-cpu.c`` (in the ``USE_OPENMP`` block).
+   Compile the code using ``make cpu`` (along with a version that uses OpenBLAS and one that uses Intel MKL).
+   Benchmark all three versions using ``sbatch run-cpu.sh``. What do you observe?
+3. Insert OpenMP pragma's for GPU offloading in the second version of ``matvecprod`` (in the ``USE_OMP_TARGET`` section).
+   The main construct you should use is ``#pragma omp target``, with the ``map`` clause to define which data should be copied
+   to and from the device. For example, you could compute the (squared) norm of a vector ``a`` like this:
+   ```c++
+   #pragma omp target map(to: n, a[n]) map(tofrom: norm)
+   #pragma omp parallel for reduction(+:norm)
+   for (int i=0; i<n; i++) norm+=a[i]*a[i];
+   ```
+Use the script ``compile-and-run-gpu.sh`` to test and benchmark the implementation.
+4. Improve the implementation by moving the data transfers outside the benchmark loop.
+This can be achieved using a ``data`` statement, e.g.:
+```c++
+#pragma omp target data map(to:a[n])
+for (int i=0; i<num_runs; i++)
+{
+// omp target code using a on the device
+}
+```
+5. We have provided several CUDA-based implementations. The timing and bandwidth results that the driver reports
+   includes transferring matrix and vectors to the device, and the result vector back. Can you determine the time
+   for these data transfers using one of the drivers?
+6. Choose suitable values for <dim> and <num_runs>, and compare the memory bandwidth achieved with your OpenMP variant,
+   the various CUDA implementations and the one using cuBLAS.
+7. Extend the cuBLAS driver to perform a general matrix-matrix (GEMM) operation instead of GEMV:
+   ```math
+   C = A\cdot B, A\in \mathbb{R}^{m\times n}, B\in\mathbb{R}^{n\times k}, C\in\mathbb{R}^{m\times k}.
+   ```
+   and to print both memory bandwidth and performance (in GFlop/s). Increase ``k`` starting from 1 in a series
+   of runs and observe how the computational intensity changes.
