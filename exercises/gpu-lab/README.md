@@ -24,15 +24,16 @@ obtained with the sequential and/or BLAS implementations.
    The main construct you should use is ``#pragma omp target``, with the ``map`` clause to define which data should be copied
    to and from the device. For example, you could compute the (squared) norm of a vector ``a`` like this:
    ```c++
-   #pragma omp target map(to: n, a[n]) map(tofrom: norm)
-   #pragma omp parallel for reduction(+:norm)
+   norm=0;
+   #pragma omp target map(to: n, a[0:n]) map(tofrom: norm)
+   #pragma omp teams distribute parallel for reduction(+:norm)
    for (int i=0; i<n; i++) norm+=a[i]*a[i];
    ```
 Use the script ``compile-and-run-gpu.sh`` to test and benchmark the implementation.
 4. Improve the implementation by moving the data transfers outside the benchmark loop.
 This can be achieved using a ``data`` statement, e.g.:
 ```c++
-#pragma omp target data map(to:a[n])
+#pragma omp target data map(to:a[n]) map(from: norm)
 for (int i=0; i<num_runs; i++)
 {
 // omp target code using a on the device

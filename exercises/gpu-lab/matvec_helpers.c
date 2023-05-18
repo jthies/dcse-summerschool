@@ -63,7 +63,6 @@ void showVector(char const* name, real *a, int m)
 
 real *initMatrix(int n, int m)
 {
-   int t;
    real *ptr;
 
    ptr = (real  *) calloc(n * m, sizeof(real)); // rows x columns
