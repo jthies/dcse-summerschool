@@ -4,7 +4,7 @@ In this exercise, we will investigate the performance of dense  general matrix-v
 with various GPU implementations:
 ```math
 b=A\cdot x
-A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}&{m}, b \in \mathbb{R}^{n}.
+A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}^{m}, b \in \mathbb{R}^{n}.
 ```
 
 - Note that you should compile the GPU examples below on the GPU node itself, therefore,
