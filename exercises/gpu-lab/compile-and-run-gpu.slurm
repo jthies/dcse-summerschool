@@ -14,8 +14,8 @@ module load likwid
 
 LAUNCH="srun"
 
-NDIM=10000
-NRUNS=1
+NDIM=20000
+NRUNS=1000
 
 echo "running on node `hostname`"
 nvidia-smi

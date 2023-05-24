@@ -7,23 +7,23 @@
 #SBATCH --account=education-eemcs-courses-wi4450
 #SBATCH --reservation=wi4450
 
-source 2023rc1.sh
-module load intel/oneapi-all
-module load openblas
-module load likwid
+source env.sh
 
 echo "running on `hostname`"
 
-LAUNCH="likwid-perfctr -C 0-47 -g MEM"
+#LAUNCH=srun
+LAUNCH="likwid-pin -C 0-47"
+#LAUNCH="likwid-perfctr -C 0-47 -g MEM"
 
-NDIM=25000
+NDIM=20000
+NRUNS=50
 
 echo "OpenMP version"
-${LAUNCH} ./matvecprod-cpu.x ${NDIM}
+${LAUNCH} ./matvecprod-cpu.x ${NDIM} ${NRUNS}
 
-echo "OpenBLAS version"
-${LAUNCH} ./matvecprod-cpu-openblas.x ${NDIM}
+#echo "OpenBLAS version"
+#${LAUNCH} ./matvecprod-cpu-openblas.x ${NDIM} ${NRUNS}
 
 echo "Intel MKL version"
-${LAUNCH} ./matvecprod-cpu-mkl.x ${NDIM}
+${LAUNCH} ./matvecprod-cpu-mkl.x ${NDIM} ${NRUNS}
 

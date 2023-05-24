@@ -29,15 +29,14 @@ typedef float real;
  * important for understanding this example. */ 
 
 #ifdef USE_OPENMP
+/* TODO: insert OpenMP pragma's for parallelization on the CPU */
 void matvecprod(real *A, real const* x, real *b, int m, int n)
 {
    int i,j;
 
-#pragma omp parallel for schedule(static)
    for(i=0;i<m;i++)
    {
       b[i] = 0;
-#pragma omp simd
       for(j=0;j<n;j++)
       {
          b[i] += x[j] * A[i*n+j];
@@ -45,6 +44,7 @@ void matvecprod(real *A, real const* x, real *b, int m, int n)
    }
 }
 #elif defined(USE_BLAS) || defined(USE_MKL)
+/* This version calls the BLAS routine SGEMV on the CPU */
 void matvecprod(float **A, float const* x, float *b, int m, int n)
 {
    float alpha = 1.0f, beta = 0.0f;
@@ -53,10 +53,14 @@ void matvecprod(float **A, float const* x, float *b, int m, int n)
    cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, alpha, &A[0][0], lda, x, incx, beta, b, incb);
 }
 #elif defined(USE_OMP_TARGET)
+/* TODO: insert OpenMP pragma's for offloading to the GPU
+         Statements you may want to try are:
+                pragma omp target (with the map clause to indicate required data movement)
+                pragma omp teams distribute for parallel execution among multiple GPU processors
+                pragma omp parallel for for parallelization among the threads of each processor
+ */
 void matvecprod(real *A, real const* x, real *b, int m, int n)
 {
-#pragma omp target map(to:m, n, x[0:n], A[0:n*m]) map(tofrom: b[0:m])
-#pragma omp teams distribute parallel for
    for(int i=0;i<m;i++)
    {
       b[i] = 0;
@@ -93,20 +97,16 @@ int main(int argc, char *argv[])
    fillMatrix(A,dim,dim, 10);
    fillVector(x,dim, 1);
 
+{
    gettimeofday(&ti1,NULL); /* read starttime in t1 */
 
 #ifdef USE_OMP_TARGET
   sprintf(label,"GPU");
-#pragma omp target data map(to:A[0:dim*dim], x[0:dim]) map(tofrom:b[0:dim])
-{
 #endif
    for (int i=0; i<num_runs; i++)
    {
      matvecprod(A,x,b,dim,dim);
    }
-#ifdef USE_OMP_TARGET
-} // omp target data region
-#endif
    gettimeofday(&ti2,NULL); /* read endtime in t2 */
 
    showMatrix("A",A,dim,dim);
@@ -121,6 +121,6 @@ int main(int argc, char *argv[])
    fflush(stderr);
    fprintf(stderr,"\n%s: average run time = %f secs.\n",label, runtime/num_runs);
    fprintf(stderr,"%s: memory bandwidth = %f GB/s.\n",label, bandwidth);
-
+}
    return 0;
 }

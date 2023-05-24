@@ -45,21 +45,24 @@ void matvecprod(real *A, real const* x, real *b, int m, int n)
    }
 }
 #elif defined(USE_BLAS) || defined(USE_MKL)
-void matvecprod(float **A, float const* x, float *b, int m, int n)
+void matvecprod(float *A, float const* x, float *b, int m, int n)
 {
    float alpha = 1.0f, beta = 0.0f;
    int incx = 1, incb = 1;
    int lda=n; // leading dimensino of A (note that A is stored in row-major order!)
-   cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, alpha, &A[0][0], lda, x, incx, beta, b, incb);
+   cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, alpha, A, lda, x, incx, beta, b, incb);
 }
 #elif defined(USE_OMP_TARGET)
 void matvecprod(real *A, real const* x, real *b, int m, int n)
 {
+/* note: it is also possible to parallelize only the outer loop by 'omp teams distribute parallel for'.
+ */
 #pragma omp target map(to:m, n, x[0:n], A[0:n*m]) map(tofrom: b[0:m])
-#pragma omp teams distribute parallel for
+#pragma omp teams distribute
    for(int i=0;i<m;i++)
    {
       b[i] = 0;
+#pragma omp parallel for reduction(+:b[i])
       for(int j=0;j<n;j++)
       {
          b[i] += x[j] * A[i*n+j];

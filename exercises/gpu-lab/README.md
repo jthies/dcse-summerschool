@@ -8,8 +8,8 @@ A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}^{m}, b \in \mathbb{R}^{n}.
 ```
 
 - Note that you should compile the GPU examples below on the GPU node itself, therefore,
-the ``make`` commands are included in the corresponding job script.
-- Before compiling the CPU version, type ``source env-cpu.sh`` to load the right compilers and libraries.
+the ``module`` and ``make`` commands are included in the corresponding job script.
+- Before compiling the CPU version, type ``source env.sh`` to load the right compilers and libraries.
 - Test that your implementation produces correct results by comparing the printed values of b with the ones
 obtained with the sequential and/or BLAS implementations.
 - If you get stuck, you may look in the ``solution`` folder for owrking versions.
