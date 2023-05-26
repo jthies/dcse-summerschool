@@ -1,47 +1,32 @@
 # DCSE summerschool 2023 slides and exercise material
 
 This repository contains slides and lab assignments for the summerschool,
-it will be available for participants during and after the event.
-
-## Structure
-
-Each subdimrectory in the 'exercises' has a README.md with self-contained instructions.
-We will generate a print-out from those files for each exercise.
+it will be available for participants during the event.
 
 ## Overview of the lab sessions
 
-### Lab 1 (monday moring): dense linear algebra and data dependencies
+### Lab 1, monday moring: dense linear algebra and data dependencies
 
-Dense LU with OpenMP tasks.
+We will implement a dense LU decomposition using OpenMP tasks
 
-- Implement and benchmark three variants: tasking along rows/cols/diagonal
-
-### GPU lab (monday afternoon)
+### GPU lab, monday afternoon: dense matrix-vector multiplication
 
 GPUs for linear algebra
 
-- managing memory between host and device
-- write first CUDA kernels (initialize matrix, GEMV)
-- Performance of GEMV vs GEMM, compare with CuBLAS and roofline model 
-- understand square vs. tall&skinny matrices
-- Use nvprof to measure and understand performance
+You will implement General (dense) Matrix-Vector (GEMV) multiplication using OpenMP, 
+and offload the calculation to the GPU. Different CUDA implementations highlight some
+aspects of GPU hardware-aware programming
 
-### Lab 2 (tuesday): Sparse solvers, Trilinos solvers and preconditioners
+### Lab 2, tuesday: Sparse solvers and preconditioners in Trilinos
 
-- based on Trilinos tutorial
-- understand how to work with sparse matrices and maps: create, repartition and reorder linear system
-- try different solver/precond combinations
-- find out experimentally which algorithms are suitable for CPUs and GPUs
+You will experiment with iterative solvers and preconditinoers from Trilinos, learn how to
+comile and run applications for multi-core CPUs and GPUs, and investigate performance.
 
-## Lab 3 (wednesday): performance of SpMV in Trilinos
+## Lab 3, wednesday: performance of SpMV in Trilinos
 
-Short lab: measure data traffic in Krylov solver using likwid
-for some different matrices -> anything wrong?
+You will benchmark the Sparse Matrix-Vector (SpMV) multiplication in Trilinos for different matrices, a key operation for iterative linear and eigenvalue solvers.
 
-## Lab 4 (thursday): communication-avoiding Krylov methods
+## Lab 4, thursday: communication-avoiding Krylov methods
 
-- Run s-step GMRES in Trilinos, investigate performance of matrix powers kernel and orthogonalization
-  using likwid (-> matrix power s has s times the data traffic, ortho becomes more compute intensive with larger s)
-- Run same experiments on GPU and compare timing behavior depending on s.
-        -
+You will compare standard GMRES, GMRES with polynomial preconditioning and s-step GMRES methods in terms of convergence and performance.
 
