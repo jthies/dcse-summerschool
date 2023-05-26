@@ -7,7 +7,7 @@ it will be available for participants during the event.
 
 ### Lab 1, monday moring: dense linear algebra and data dependencies
 
-We will implement a dense LU decomposition using OpenMP tasks  
+We will implement a dense LU decomposition using a block algorithm and OpenMP tasks  
 [details](lab1/README.md)
 
 ### GPU lab, monday afternoon: dense matrix-vector multiplication
