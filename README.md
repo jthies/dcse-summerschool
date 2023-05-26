@@ -5,7 +5,7 @@ it will be available for participants during the event.
 
 ## Overview of the lab sessions
 
-### Lab 1, monday moring: dense linear algebra and data dependencies
+### [lab1/README.md](Lab 1, monday moring: dense linear algebra and data dependencies)
 
 We will implement a dense LU decomposition using OpenMP tasks
 
