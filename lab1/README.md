@@ -50,15 +50,17 @@ when factoring a $`2\times 2`$ block matrix
 \left ( \begin{array}{cc}
         A_{11} & A_{12} \\
         A_{21} A_{22} 
-\end{array} = 
+\end{array} \right ) = 
+\left (
 \begin{array}{cc}
         L_{11} & 0 \\
         L_{21} & I 
-\end{array}
+\end{array} \right )
+\left (
 \begin{array}{cc}
         U_{11} & U_{12} \\
          0 & S 
-\end{array}
+\end{array} \right ).
 
 The next step would then to factor $`S = L_{22}\cdot U_{22}`$.
 
