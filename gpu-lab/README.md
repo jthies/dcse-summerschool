@@ -11,7 +11,14 @@ the ``module`` and ``make`` commands are included in the corresponding job scrip
 - Before compiling the CPU version, type ``source env.sh`` to load the right compilers and libraries.
 - Test that your implementation produces correct results by comparing the printed values of b with the ones
 obtained with the sequential and/or BLAS implementations.
-- If you get stuck, you may look in the ``solution`` folder for owrking versions.
+- If you get stuck, you may look in the ``solution`` folder for oworking versions.
+
+## What you will learn/practice here
+
+- offloading computations to the GPU with OpenMP,
+- keeping data on the GPU between calls,
+- calling optimized GPU library routines (CuBLAS here)
+- estimating the performance difference between CPU and GPU
 
 ## Your tasks
 
