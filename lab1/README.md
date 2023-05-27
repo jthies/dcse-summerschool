@@ -48,7 +48,7 @@ when factoring a $`2\times 2`$ block matrix
         U_{11} & U_{12} \\
          0 & S 
 \end{array} \right ).
-
+```
 The next step would then to factor $`S = L_{22}\cdot U_{22}`$.
 
 ## The algorithm
