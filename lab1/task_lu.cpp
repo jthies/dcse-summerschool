@@ -205,7 +205,7 @@ void factorize_task_parallelized(
     // A nullpointer for whatever reason is proven to be silently incorrect.
     float task_p [nb * nb];
 
-    // TODO: insert #pragma omp task statmements in front of the function calls 
+    // TODO: insert #pragma omp task statements in front of the function calls 
     //       diag_factor, row_update, col_update and trail_update to parallelize
     // the LU decomposition.
     //       Make sure the tasks are executed in the right order by adding dependencies.
