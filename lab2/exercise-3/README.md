@@ -1,9 +1,6 @@
-# Source Files
+## Acknowledgement
 
-+ [Exercise 1](https://github.com/searhein/frosch-demo/tree/main/src/exercise-1) - Implementing a Krylov Solver Using `Belos`
-+ [Exercise 2](https://github.com/searhein/frosch-demo/tree/main/src/exercise-2) - Implementing a One-Level Schwarz Preconditioner Using `FROSch`
-+ [Exercise 3](https://github.com/searhein/frosch-demo/tree/main/src/exercise-3) - Implementing a GDSW Preconditioner Using `FROSch`
-+ [Solution](https://github.com/searhein/frosch-demo/tree/main/src/solution) contains an implementation that includes all the steps above.
+This exercise is an adaptation of the [FROSch-Demo](https://github.com/searhein/frosch-demo) by Alexander Heinlein.
 
 ## Description
 

@@ -1,3 +1,5 @@
+This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-docker)
+
 # How to solve a linear system with Belos and Ifpack2?
 
 In this exercise, you will use GMRES (potentially with a preconditioner such as Jacobi/Gauss-Seidel/Symmetric Gauss-Seidel)

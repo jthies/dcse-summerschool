@@ -1,3 +1,5 @@
+This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-docker)
+
 # How to assemble a linear system in Tpetra?
 
 In this exercise, you will assemble a linear system arising from the finite element discretization of a one-dimensional Poisson problem (wihtout boundary conditions for simplicity).
