@@ -45,12 +45,12 @@ void matvecprod(real *A, real const* x, real *b, int m, int n)
 }
 #elif defined(USE_BLAS) || defined(USE_MKL)
 /* This version calls the BLAS routine SGEMV on the CPU */
-void matvecprod(float **A, float const* x, float *b, int m, int n)
+void matvecprod(float *A, float const* x, float *b, int m, int n)
 {
    float alpha = 1.0f, beta = 0.0f;
    int incx = 1, incb = 1;
    int lda=n; // leading dimensino of A (note that A is stored in row-major order!)
-   cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, alpha, &A[0][0], lda, x, incx, beta, b, incb);
+   cblas_sgemv(CblasRowMajor, CblasNoTrans, m, n, alpha, A, lda, x, incx, beta, b, incb);
 }
 #elif defined(USE_OMP_TARGET)
 /* TODO: insert OpenMP pragma's for offloading to the GPU

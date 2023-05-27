@@ -57,12 +57,11 @@ void matvecprod(real *A, real const* x, real *b, int m, int n)
 {
 /* note: it is also possible to parallelize only the outer loop by 'omp teams distribute parallel for'.
  */
-#pragma omp target map(to:m, n, x[0:n], A[0:n*m]) map(tofrom: b[0:m])
-#pragma omp teams distribute
+#pragma omp target map(to:m, n, x[0:n], A[0:n*m]) map(from: b[0:m])
+#pragma omp teams distribute parallel for
    for(int i=0;i<m;i++)
    {
       b[i] = 0;
-#pragma omp parallel for reduction(+:b[i])
       for(int j=0;j<n;j++)
       {
          b[i] += x[j] * A[i*n+j];
