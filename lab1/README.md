@@ -41,13 +41,35 @@ in the PDF file and/or in the solution/ subfolder.
 
 ## Your tasks
 
-1. Look through the program code ``task_lu.cpp`` to understand its structure.
+1. In order to understand the three operations required, 
+take a moment with pen and paper to determine the values
+of $`L_{21}`$, $`U_{12}`$ and $`S`$ (the Schur complement)
+when factoring a $`2\times 2`$ block matrix
+
+```math
+\left ( \begin{array}{cc}
+        A_{11} & A_{12} \\
+        A_{21} A_{22} 
+\end{array} = 
+\begin{array}{cc}
+        L_{11} & 0 \\
+        L_{21} & I 
+\end{array}
+\begin{array}{cc}
+        U_{11} & U_{12} \\
+         0 & S 
+\end{array}
+
+The next step would then to factor $`S = L_{22}\cdot U_{22}`$.
+
+
+2. Look through the program code ``task_lu.cpp`` to understand its structure.
    In particular, go through the block-wise LU decomposition algorithm in ``factorize_loop_parallelized``
    and understand how it uses the three building blocks ``diag_fact``, ``row_update``, ``col_update`` and ``trail_update``
    to implement the algorithm.
-2. Following the comments in ``factorize_loop_parallelized``, insert OpenMP pragma's to achieve shared-memory parallelization.
+3. Following the comments in ``factorize_loop_parallelized``, insert OpenMP pragma's to achieve shared-memory parallelization.
    Set the macro ``BENCH_FACTORIZE`` to 1 to benchmark the parallel code.
-3. Now insert OpenMP task pragma's in ``factorize_task_parallelized`` to expose the parallelism available in the algorithm to the
+4. Now insert OpenMP task pragma's in ``factorize_task_parallelized`` to expose the parallelism available in the algorithm to the
    OpenMP runtime. Be careful to specify all dependencies to avoid so-called race conditions!
    To benchmark this version, set ``BENCH_FACTORIZE`` to 2 before compiling and running the code
 
