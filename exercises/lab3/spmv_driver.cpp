@@ -17,6 +17,8 @@
 #include <sstream>
 #include <tuple>
 
+#include "Teuchos_TimeMonitor.hpp"
+
 #ifdef LIKWID_PERFMON
 #include <likwid.h>
 #endif
@@ -114,11 +116,15 @@ int main (int argc, char* argv[])
 
   if (comm->getRank() == 0) std::cout << "Perform "<< maxIters << " SpMVs..."<<std::endl;
 
+  auto spmv_timer = Teuchos::TimeMonitor::getNewCounter("SpMV");
+
   for (int i=0; i<maxIters; i++)
   {
+    Teuchos::TimeMonitor time(*spmv_timer);
     A->apply (*X, *Y);
   }
 
+    Teuchos::TimeMonitor::summarize();
 
 #ifdef LIKWID_PERFMON
     LIKWID_MARKER_CLOSE;
