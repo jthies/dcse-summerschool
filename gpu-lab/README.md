@@ -34,8 +34,7 @@ obtained with the sequential and/or BLAS implementations.
    #pragma omp target map(to: n, a[0:n]) map(tofrom: norm)
    #pragma omp teams distribute parallel for reduction(+:norm)
    for (int i=0; i<n; i++) norm+=a[i]*a[i];
-   ```
-Use the script ``compile-and-run-gpu.sh`` to test and benchmark the implementation.  
+   ``` Use the script ``compile-and-run-gpu.sh`` to test and benchmark the implementation.  
 4. Improve the implementation by moving the data transfers outside the benchmark loop.
 This can be achieved using a ``data`` statement, e.g.:
 ```c++
