@@ -4,8 +4,8 @@ In this lab, we want to compute the LU decomposition of a dense matrix
 on a shared-memory system (i.e., a multi-core CPU). You will use OpenMP
 parallel loops and tasks to parallelize this important numerical algorithm.
 
-In the given code template, most OpenMP statements need to be inserted, but a
-working sequential LU decomposition is provded, as well as a framework for testing
+- In the given code template, most OpenMP statements need to be inserted, but a
+working sequential LU decomposition is provided, as well as a framework for testing
 and benchmarking the code. 
 
 - The matrix is stored as a 2D "grid" of tiles (or "blocks"):
@@ -17,7 +17,11 @@ so the block in row ``i`` and column ``j`` is accessed by ``blocks[i][j]``. The 
 is stored as a 1D array (i.e., ``std::vector<float>``), and the element in row ``i`` and column ``j``
 is accessed using index arithmetic: ``block[j*n+i]``.
 
-This [OpenMP cheatsheet](https://www.openmp.org/wp-content/uploads/OpenMP-4.0-C.pdf) may come in handy...
+- The algorithm
+
+![Tile-LU algorithm sketch](tile_lu_algorithm.png)
+
+- This [OpenMP cheatsheet](https://www.openmp.org/wp-content/uploads/OpenMP-4.0-C.pdf) may come in handy...
 
 If at any point you get stuck or run out of time, you may look for inspiration
 in the PDF file and/or in the solution/ subfolder.

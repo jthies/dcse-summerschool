@@ -3,8 +3,7 @@
 In this exercise, we will investigate the performance of dense  general matrix-vector (GEMV) product
 with various GPU implementations:
 ```math
-b=A\cdot x
-A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}^{m}, b \in \mathbb{R}^{n}.
+b=A\cdot x, A\in\mathbb{R}^{m \times n}, x \in \mathbb{R}^{m}, b \in \mathbb{R}^{n}.
 ```
 
 - Note that you should compile the GPU examples below on the GPU node itself, therefore,
@@ -50,3 +49,4 @@ for (int i=0; i<num_runs; i++)
    ```
    and to print both memory bandwidth and performance (in GFlop/s). Increase ``k`` starting from 1 in a series
    of runs and observe how the computational intensity changes.
+   The cublas 'gemm' documentation can be found [here](https://docs.nvidia.com/cuda/cublas/index.html#cublas-t-gemm).
