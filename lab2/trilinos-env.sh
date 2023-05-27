@@ -13,7 +13,7 @@ else
   module load gcc/11.3.0
   module use /apps/arch/2023rc1/lmod/linux-rhel8-x86_64/gcc/11.3.0
   module load openblas
-  export TRILINOS_ROOT=/beegfs/apps/unsupported/trilinos-devel/compute-likwid/
+  export TRILINOS_ROOT=/beegfs/apps/unsupported/trilinos-devel/compute/
   export OMPI_CXX=g++
 fi
 
