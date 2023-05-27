@@ -1,7 +1,7 @@
 project(DCSE_Summerschool_Lab3 CXX)
 cmake_minimum_required(VERSION 3.10)
 
-find_package(Trilinos REQUIRED COMPONENTS Teuchos Belos Tpetra)
+find_package(Trilinos REQUIRED COMPONENTS Teuchos Tpetra Amesos2)
 set(CMAKE_CXX_COMPILER ${Trilinos_CXX_COMPILER})
 set(CMAKE_CXX_FLAGS ${Trilinos_CXX_COMPILER_FLAGS})
 
