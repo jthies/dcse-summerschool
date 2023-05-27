@@ -22,7 +22,7 @@ so the block in row ``i`` and column ``j`` is accessed by ``blocks[i][j]``. The 
 is stored as a 1D array (i.e., ``std::vector<float>``), and the element in row ``i`` and column ``j``
 is accessed using index arithmetic: ``block[j*n+i]``.
 - If at any point you get stuck or run out of time, you may look for inspiration
-in the PDF file and/or in the solution/ subfolder.
+in the ``solution/`` subfolder.
 - This [OpenMP cheatsheet](https://www.openmp.org/wp-content/uploads/OpenMP-4.0-C.pdf) may come in handy...
 
 
