@@ -5,7 +5,7 @@ find_package(Trilinos REQUIRED COMPONENTS Teuchos Belos Tpetra)
 set(CMAKE_CXX_COMPILER ${Trilinos_CXX_COMPILER})
 set(CMAKE_CXX_FLAGS ${Trilinos_CXX_COMPILER_FLAGS})
 
-add_executable(example1.x main.cpp)
+add_executable(main.x main.cpp)
 
-target_include_directories(example1.x PRIVATE ${Trilinos_INCLUDE_DIRS})
-target_link_libraries(example1.x ${Trilinos_LIBRARIES})
+target_include_directories(main.x PRIVATE ${Trilinos_INCLUDE_DIRS})
+target_link_libraries(main.x ${Trilinos_LIBRARIES})

@@ -15,35 +15,6 @@ You will learn
 - how to create and fill a vector,
 - how to create and fill a sparse matrix.
 
-## Starting point
-
-The Trilinos source code repository is located at `/opt/.../`. Required dependencies (such as `CMake`) are installed.
-
-> Note: The Trilinos source code repository as well as all required dependencies are alerady part of the docker container for this Trilinos tutorial.
-
-## Preparing the directory structure
-
-1. Navigate to base directory for this exercise
-
-   ```bash
-   cd /opt/trilinos_demo/exercises/ex_02_assemble/
-   ```
-
-1. Create the build directory via
-
-   ```bash
-   mkdir build
-   ```
-
-## Configure the build system
-
-1. Navigate into the build directory
-1. Run the pre-existing configure script:
-
-   ```bash
-   source ../do-configure-ex-02
-   ```
-
 ## Complete the application's source code
 
 In this part of the exercise, you will work with an existing `main.cpp` file, where you will fill in imporant parts yourself.
@@ -154,5 +125,5 @@ and fill it with all ones:
 ## Build and run the app
 
 1. Compile the app via `make`.
-1. Run the app in serial via `./ex_02_assemble`.
-1. Run the app in parallel on `<numProc>` MPI ranks via `mpirun -np <numProc> ./ex_02_assemble`.
+1. There are three job scripts to run the program using multiple threads (OpenmP), processes (MPI), and on a GPU (CUDA backend).
+Check that you are getting the same output in different cases.
