@@ -16,35 +16,6 @@ You will learn
 - how to use the relaxation method as a preconditioner for the outher Krylov method.
 - how to setup and solve the linear system.
 
-## Starting point
-
-The Trilinos source code repository is located at `/opt/.../`. Required dependencies (such as `CMake`) are installed.
-
-> Note: The Trilinos source code repository as well as all required dependencies are alerady part of the docker container for this Trilinos tutorial.
-
-## Preparing the directory structure
-
-1. Navigate to base directory for this exercise
-
-   ```bash
-   cd /opt/trilinos_demo/exercises/ex_03_solve/
-   ```
-
-1. Create the build directory via
-
-   ```bash
-   mkdir build
-   ```
-
-## Configure the build system
-
-1. Navigate into the build directory
-1. Run the pre-existing configure script:
-
-   ```bash
-   source ../do-configure-ex-03
-   ```
-
 ## Complete the source code to create and use the Krylov solver from `Belos`
 
 In this part of the exercise, you will work with an existing `main.cpp` file, where you will fill in imporant parts yourself.
@@ -89,7 +60,7 @@ For now, you will use GMRES only without any preconditioner. In the code, you wi
 
 1. Compile the app via `make`.
 
-Now, your can execute your application and try various linear systems and solver settings.
+Now, your can execute your application (via a slurm job or -- for very small tests -- on the login node) and try various linear systems and solver settings.
 You can configure the behavior on the command line.
 Here's an overview of the configuration options:
 
@@ -259,4 +230,4 @@ To enable the preconditioer, just pass the additional command line argument `--w
 As expected, the number of Krylov iterations until convergence goes down,
 when a stronger preconditioner is used.
 
-Now, feel free to experiment with even solver and preconditioner configurations, mesh sizes, etc.
+Now, feel free to experiment with other solver and preconditioner configurations, mesh sizes, etc.
