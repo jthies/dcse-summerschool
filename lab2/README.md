@@ -32,3 +32,5 @@ cmake ..
 make
 ```
 You can then use the ``build`` folder for running your experiments.
+Very small test runs can be done on the login node, but for larger runs please submit a job.
+A sample job script for the CPU and GPU experiments is provided for the first exercise and can be adapted for the others.
