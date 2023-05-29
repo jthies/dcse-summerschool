@@ -12,4 +12,4 @@
 
 source trilinos-env.sh
 cd build
-srun likwid-perfctr -m -C 0-47 -g MEM_DP ./ifpack_driver.x --matrixFilename="../data/lap128x128.mtx" --rhsFilename="../data/rhs128x128.mtx"
+srun likwid-perfctr -m -c 0-47 -g MEM_DP ./ifpack_driver.x --matrixFilename="../data/lap128x128.mtx" --rhsFilename="../data/rhs128x128.mtx"
