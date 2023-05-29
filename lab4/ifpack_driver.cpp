@@ -1591,6 +1591,7 @@ splitIntoValues (const std::string& s,
 
 // Values of command-line arguments.
 struct CmdLineArgs {
+  bool listMethods = false;
   std::string matrixFilename;
   std::string rhsFilename;
   std::string solverTypes = "GMRES";
@@ -1617,6 +1618,7 @@ bool
 getCmdLineArgs (CmdLineArgs& args, int argc, char* argv[])
 {
   Teuchos::CommandLineProcessor cmdp (false, true);
+  cmdp.setOption ("listMethods", "no-listMethods", &args.listMethods, "List supported solvers and preconditioners and exit.");
   cmdp.setOption ("matrixFilename", &args.matrixFilename, "Name of Matrix "
                   "Market file with the sparse matrix A");
   cmdp.setOption ("rhsFilename", &args.rhsFilename, "Name of Matrix Market "
@@ -1677,8 +1679,16 @@ getCmdLineArgs (CmdLineArgs& args, int argc, char* argv[])
                   &args.useReorderingInIfpack2,
                   "Whether to use reordering in Ifpack2.");
 
+  bool return_value=false;
+  try {
   auto result = cmdp.parse (argc, argv);
-  return result == Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL;
+  return_value =  (result == Teuchos::CommandLineProcessor::PARSE_SUCCESSFUL);
+  } catch (Teuchos::CommandLineProcessor::HelpPrinted& H)
+  {
+    // this is a workaround because Kokkos seems to intercept the --help and only Kokkos options get printed
+    cmdp.printHelpMessage(argv[0], std::cout);
+  }
+  return return_value;
 }
 
 template<class ScalarType>
@@ -1880,6 +1890,40 @@ public:
       solver_ = Teuchos::null;
     }
     A_ = A;
+  }
+
+
+  void listSupportedMethods ()
+  {
+    auto fancy_out = Teuchos::getFancyOStream(Teuchos::rcp(&std::cout, false));
+    //fancy_out->setOutputToRootOnly(true);
+
+    Belos::SolverFactory<scalar_type, MV, OP> belosFactory;
+
+    *fancy_out << "Supported Belos solvers (option --solverTypes):" << std::endl;
+    belosFactory.describe(*fancy_out, Teuchos::VERB_HIGH);
+
+    // this stupid class doesn't have a function to print supported precTypes,
+    // so we just try a few and build a vector of the supported ones
+    std::vector<std::string> precTypes = {
+       "CHEBYSHEV", "DENSE", "LAPACK",
+           "AMESOS2",
+           "DIAGONAL", "ILUT", "RELAXATION", "RILUK", "RBILUK",
+           "FAST_IC", "FAST_ILU", "FAST_ILDL",
+           "BLOCK_RELAXATION", "DENSE_BLOCK_RELAXATION",
+           "SPARSE_BLOCK_RELAXATION",
+           "HYPRE",
+           "TRIDIAGONAL RELAXATION",
+           "BANDED_RELAXATION",
+           "Nonsense to make sure this actually works"
+           };
+
+
+    *fancy_out << "Supported Ifpack2 preconditioners (option --preconditionerTypes):" << std::endl;
+    for (auto method: precTypes)
+    {
+      if (Ifpack2::Factory::isSupported<row_matrix_type>(method)) *fancy_out << "    - \""<<method<<"\""<<std::endl;
+    }
   }
 
   void
@@ -2576,6 +2620,13 @@ main (int argc, char* argv[])
 
   // Create the solver.
   BelosIfpack2Solver<crs_matrix_type> solver (A);
+
+  if (args.listMethods)
+  {
+    std::cout << "Supported solvers and preconditioners:"<<std::endl;
+    solver.listSupportedMethods();
+    return EXIT_SUCCESS;
+  }
 
   std::string precSubType = preconditionerSubType;
   // Solve the linear system using various solvers and preconditioners.

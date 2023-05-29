@@ -8,6 +8,8 @@ which you need to unzip once using ``gunzip <filename>``). While this may seem a
 note that solving thousands of such systems in sequence is required for a time-dependent simulation of this problem, so performance
 **really matters**.
 
+For quick checks, use the small matrix lap128x128.mm, because the MomentumEQS matrix takes about a minute to read from the file!
+
 ## What you will practice here
 
 - working with Trilinos Belos/Tpetra/Ifpack2
