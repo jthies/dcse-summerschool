@@ -2,8 +2,8 @@ cd $SCRATCH
 mkdir -p suite-sparse-matrices
 cd suite-sparse-matrices
 
-matrices="af_shell10 kkt_power"
-webLinks="https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell10.tar.gz https://suitesparse-collection-website.herokuapp.com/MM/Zaoui/kkt_power.tar.gz"
+matrices="af_shell10 kkt_power Transport"
+webLinks="https://suitesparse-collection-website.herokuapp.com/MM/Schenk_AFE/af_shell10.tar.gz https://suitesparse-collection-website.herokuapp.com/MM/Zaoui/kkt_power.tar.gz https://suitesparse-collection-website.herokuapp.com/MM/Janna/Transport.tar.gz"
 
 ctr=1
 for matrix in $matrices; do
