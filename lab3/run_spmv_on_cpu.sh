@@ -26,4 +26,4 @@ export OMP_PROC_BIND=close
 srun ./spmv_driver.x --matrixFilename="${matrix}"
 
 #echo "############ Running with LIKWID ################"
-#../likwid-mpirun -pin M0:0-$(($SLURM_CPUS_PER_TASK-1))_M1:0-$(($SLURM_CPUS_PER_TASK-1))_M2:0-$(($SLURM_CPUS_PER_TASK-1))_M3:0-$(($SLURM_CPUS_PER_TASK-1)) -g MEM_DP -m -mpi slurm -d ./spmv_driver.x --matrixFilename="${matrix}"
+#../../helper_scripts/likwid-mpirun -pin M0:0-$(($SLURM_CPUS_PER_TASK-1))_M1:0-$(($SLURM_CPUS_PER_TASK-1))_M2:0-$(($SLURM_CPUS_PER_TASK-1))_M3:0-$(($SLURM_CPUS_PER_TASK-1)) -g MEM_DP -m -mpi slurm ./spmv_driver.x --matrixFilename="${matrix}"
