@@ -10,7 +10,7 @@
 #SBATCH --partition=compute
 
 
-source trilinos-env.sh
+source ../helper_scripts/trilinos-env.sh
 module li
 
 cd build
