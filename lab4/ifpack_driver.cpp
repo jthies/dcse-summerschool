@@ -2635,14 +2635,19 @@ main (int argc, char* argv[])
           for (int maxIters : maxIterValues) {
               for (int restartLength : restartLengthValues) {
                   for (double convTol : convergenceToleranceValues) {
-                      solveAndReport (solver, *A_original, *X, *B,
-                              solverType,
-                              precType,
-                              precSubType,
-                              convTol,
-                              maxIters,
-                              restartLength,
-                              args);
+			  {
+			      auto solve_time = Teuchos::TimeMonitor::getNewCounter("Total solve time");
+
+			      Teuchos::TimeMonitor time(*solve_time);
+			      solveAndReport (solver, *A_original, *X, *B,
+				      solverType,
+				      precType,
+				      precSubType,
+				      convTol,
+				      maxIters,
+				      restartLength,
+				      args);
+			 }
                       Teuchos::TimeMonitor::summarize();
                       Teuchos::TimeMonitor::zeroOutTimers();
                   }
