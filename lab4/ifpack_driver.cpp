@@ -1601,6 +1601,9 @@ struct CmdLineArgs {
   std::string restartLengthValues = "20";
   std::string preconditionerTypes = "RELAXATION";
   std::string preconditionerSubType = "NONE";
+  std::string preconditionerOuterSweep = "1";
+  std::string preconditionerInnerSweep = "1";
+  std::string preconditionerInnerDamping = "1";
   bool solverVerbose = false;
   bool equilibrate = false;
   bool assumeSymmetric = false;
@@ -1645,6 +1648,12 @@ getCmdLineArgs (CmdLineArgs& args, int argc, char* argv[])
   cmdp.setOption ("preconditionerSubType", &args.preconditionerSubType,
                   "One or more Ifpack2 preconditioner sub types for RELAXATION preconditioner (e.g., Jacobi, Gauss-Seidel), "
                   "separated by commas");
+  cmdp.setOption ("preconditionerOuterSweep", &args.preconditionerOuterSweep,
+                  "Outer sweeps in Relaxation preconditioners");
+  cmdp.setOption ("preconditionerInnerSweep", &args.preconditionerInnerSweep,
+                  "Inner sweeps in two-stage GS preconditioners");
+  cmdp.setOption ("preconditionerInnerDamping", &args.preconditionerInnerDamping,
+                  "Inner damping for two-stage GS preconditioners");
   cmdp.setOption ("solverVerbose", "solverQuiet", &args.solverVerbose,
                   "Whether the Belos solver should print verbose output");
   cmdp.setOption ("equilibrate", "no-equilibrate", &args.equilibrate,
@@ -2072,6 +2081,9 @@ solveAndReport (BelosIfpack2Solver<CrsMatrixType>& solver,
                 const std::string& solverType,
                 /*const std::string& */ std::string precType,
                 /*const std::string& */ std::string precSubType,
+		int precOuterSweep,
+		int precInnerSweep,
+		double precInnerDamping,
                 const typename MultiVectorType::mag_type convergenceTolerance,
                 const int maxIters,
                 const int restartLength,
@@ -2121,6 +2133,28 @@ solveAndReport (BelosIfpack2Solver<CrsMatrixType>& solver,
       {
           precParams->set ("relaxation: type", precSubType);
       }
+
+      if((precSubType == "Two-stage Gauss-Seidel") || (precSubType == "Two-stage Symmetric Gauss-Seidel"))
+      {
+          precParams->set ("relaxation: outer sweeps", precOuterSweep);
+          precParams->set ("relaxation: inner sweeps", precInnerSweep);
+          precParams->set("relaxation: inner damping factor", precInnerDamping);
+      }
+      else
+      {
+          precParams->set ("relaxation: sweeps", precOuterSweep);
+      }
+    }
+    else if(precType == "RILUK") {
+        if(precSubType != "NONE")
+        {
+            precParams->set ("fact: iluk level-of-fill", atoi(precSubType.c_str()));
+        }
+        //CA: activate multicore support
+        precParams->set ("fact: type", "KSPILUK");
+        //precParams->set("trisolver: type", "KSPTRSV");
+        //CA:use ShyLU since this is as for my experiment with G3_circuit the fastest parallel, surprised to see no where in Ifpack2 it is mentioned how to activate it
+        precParams->set("trisolver: type", "HTS");
     }
   }
 
@@ -2290,6 +2324,29 @@ main (int argc, char* argv[])
     preconditionerSubType = args.preconditionerSubType;
   }
 
+  int preconditionerOuterSweep;//for Relaxation precons
+  if(args.preconditionerOuterSweep == "") {
+      preconditionerOuterSweep = 1;
+  }
+  else {
+      preconditionerOuterSweep = atoi(args.preconditionerOuterSweep.c_str());
+  }
+
+  int preconditionerInnerSweep;//for GS2 and SGS2
+  if(args.preconditionerInnerSweep == "") {
+      preconditionerInnerSweep = 1;
+  }
+  else {
+      preconditionerInnerSweep = atoi(args.preconditionerInnerSweep.c_str());
+  }
+
+  double preconditionerInnerDamping;//for GS2 and SGS2
+  if(args.preconditionerInnerDamping == "") {
+      preconditionerInnerDamping = 1;
+  }
+  else {
+      preconditionerInnerDamping = atof(args.preconditionerInnerDamping.c_str());
+  }
 
   std::vector<int> maxIterValues;
   if (args.maxIterValues == "") {
@@ -2643,6 +2700,9 @@ main (int argc, char* argv[])
 				      solverType,
 				      precType,
 				      precSubType,
+				      preconditionerOuterSweep,
+				      preconditionerInnerSweep,
+				      preconditionerInnerDamping,
 				      convTol,
 				      maxIters,
 				      restartLength,
