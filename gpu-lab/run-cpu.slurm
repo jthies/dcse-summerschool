@@ -4,8 +4,8 @@
 #SBATCH -c 48
 #SBATCH -t 00:30:00
 #SBATCH --mem=0
-#SBATCH --account=education-eemcs-courses-wi4450
-#SBATCH --reservation=wi4450
+#SBATCH --account=education-eemcs-courses-summerschool2023
+#SBATCH --reservation=summerschool2023
 
 source env.sh
 
