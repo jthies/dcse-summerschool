@@ -10,7 +10,7 @@
 
 
 source ../env.sh
--mkdir build-gpu
+mkdir build-gpu || true
 cd build-gpu
 cmake ..
 make -j
