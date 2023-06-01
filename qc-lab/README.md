@@ -11,4 +11,6 @@ with real-valued upper triangular matrix $Q\in\mathbb{R}^{n\times n}$
 
 ## Your tasks
 
-1. [Setup D-Wave Ocean SDK](exercise-1/Readme.md)
+1. [Setup D-Wave Ocean SDK](exercise-1/README.md)
+
+2. [Solve MaxCut problem](exercise-2/README.md)
