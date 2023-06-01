@@ -54,7 +54,7 @@ sampler = DWaveSampler(region='na-west-1', solver='Advantage2_prototype1.1')
 hwGraph = sampler.to_networkx_graph()
 embedding = minorminer.find_embedding(Q, hwGraph)
 
-#print(embedding)
+print(embedding)
 #embedding = {1: [492], 2: [507], 3: [5237], 4: [522], 5: [5252]}
 
 
