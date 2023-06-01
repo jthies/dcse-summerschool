@@ -58,7 +58,7 @@
      
    - Overwrite `dwave.conf` file
 
-     We suggest that you override the just created `dwave.conf` file by the one from this repository filling in the authentication token.
+     We suggest that you override the just created `dwave.conf` file by the [dwave.conf](../dwave.conf) from this repository filling in the authentication token.
 
 3. __Verify your configuration__
 
