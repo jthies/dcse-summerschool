@@ -32,3 +32,14 @@ In this exercise we will consider the MaxCut problem and study its QUBO formulat
    embedding = {1: [492], 2: [507], 3: [5237], 4: [522], 5: [5252]}
    ```
    and assigning physical qubits to the 5 binary variables `1`,...,`5`.
+4. Change to another region and solver, e.g.
+   ```
+   sampler = DWaveSampler(region='eu-central-1', solver='Advantage_system5.3')
+   ```
+   If you have copied the provided [dwave.conf](../exercise-1/dwave.conf) you can easily switch between different profiles
+   ```
+   sampler = DWaveSampler(profile='eu')
+   sampler = DWaveSampler(profile='na-1')
+   [...]
+   sampler = DWaveSampler(profile='na-4')
+   ```
