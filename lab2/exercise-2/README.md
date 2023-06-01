@@ -1,4 +1,5 @@
-This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-docker)
+This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-docker)ex02
+
 
 # How to solve a linear system with Belos and Ifpack2?
 
@@ -60,9 +61,9 @@ Here's an overview of the configuration options:
 - You can define the mesh size by specifying the number of mesh nodes `nx`, `ny`, `nz` in x-, y-, z-direction, respectively.
 - You can set the max number of iterations (`maxIters`), the desired tolerance (`tol`), and the output frequency (`outFrequency`)
 
-To get a complete list of options, run `./ex_03_solve --help`.
+To get a complete list of options, run `./main.x --help`.
 
-1. Run the solver in serial (with default settings): `./ex_03_solve`
+1. Run the solver with default settings: `./main.x`
 
    Expected output:
 
@@ -78,7 +79,7 @@ To get a complete list of options, run `./ex_03_solve --help`.
    Belos converged in 20 iterations to an achieved tolerance of 7.70474e-05 (< tol = 0.0001).
    ```
 
-1. Run the solver in serial with a tighter tolerance of 1.0e-8: `./ex_03_solve --tol=1.0e-8`
+1. Run the solver with a tighter tolerance of 1.0e-8: `./main.x --tol=1.0e-8`
 
    Expected output:
 
@@ -94,7 +95,7 @@ To get a complete list of options, run `./ex_03_solve --help`.
    Belos converged in 32 iterations to an achieved tolerance of 8.66916e-09 (< tol = 1e-08).
    ```
 
-1. Run the solver in parallel on 4 MPI ranks to solve a `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30`
+1. Run the solver in parallel on 4 MPI ranks to solve an `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30`
 
    Expected output:
 
@@ -149,7 +150,7 @@ To study the effect of the preconditioner, we look at the last example from the 
 and examine different preconditioner settings.
 To enable the preconditioer, just pass the additional command line argument `--withPreconditioner`.
 
-1. Run the solver in parallel on 4 MPI ranks to solve a `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and enable the default preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner`
+1. Run the solver in parallel on 4 MPI ranks to solve an `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and enable the default preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner`
 
    Expected output:
 
@@ -187,7 +188,7 @@ To enable the preconditioer, just pass the additional command line argument `--w
    Through the preconditioner (in this case 1x sweep of damped Jacobi (damping = 2/3) per GMRES iteration),
    the total number of iterations drops from 377 to 294.
 
-1. Run the solver in parallel on 4 MPI ranks to solve a `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and use 1 sweep of damped Gauss-Seidel as preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner --precType=Gauss-Seidel`
+1. Run the solver in parallel on 4 MPI ranks to solve an `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and use 1 sweep of damped Gauss-Seidel as preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner --precType=Gauss-Seidel`
 
    Expected output:
 
@@ -203,7 +204,7 @@ To enable the preconditioer, just pass the additional command line argument `--w
    Belos converged in 248 iterations to an achieved tolerance of 9.49484e-09 (< tol = 1e-08).
    ```
 
-1. Run the solver in parallel on 4 MPI ranks to solve a `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and use 2 sweeps of damped Symmetric Gauss-Seidel as preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner --precType="Symmetric Gauss-Seidel" --numSweeps=2`
+1. Run the solver in parallel on 4 MPI ranks to solve an `Elasticity3D` problem on a 25x12x30 mesh up to a relative tolerance of `tol` = 1.0e-8 and allow 400 Krylov iterations at maximum and use 2 sweeps of damped Symmetric Gauss-Seidel as preconditioner: `mpirun -np 4 ./ex_03_solve --tol=1.0e-8  --maxIters=400 --matrixType=Elasticity3D --nx=25 --ny=12 --nz=30 --withPreconditioner --precType="Symmetric Gauss-Seidel" --numSweeps=2`
 
    Expected output:
 
