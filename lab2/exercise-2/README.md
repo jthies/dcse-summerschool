@@ -7,26 +7,18 @@ to solve linear systems.
 
 ## Didactic goals
 
-This exercise will introduce you to the basics of preconditioned Krylov solvers in Trilinos. Therefore, you will work with Krylov solvers rom the `Belos` package and relaxation methods from the `Ifpack2` package to be used as preconditioners.
+This exercise will introduce you to the basics of preconditioned Krylov solvers in Trilinos. Therefore, you will work with Krylov solvers from the `Belos` package and relaxation methods from the `Ifpack2` package to be used as preconditioners.
 
 You will learn
 
-- how to create and configure a Krylov solver via `Belos`,
-- how to create and configure a relaxation methods method via `Ifpack2`,
-- how to use the relaxation method as a preconditioner for the outher Krylov method.
+- how to create and configure a Krylov solver via `Belos,`
+- how to create and configure a relaxation method via `Ifpack2,`
+- how to use the relaxation method as a preconditioner for the outer Krylov method.
 - how to setup and solve the linear system.
 
 ## Complete the source code to create and use the Krylov solver from `Belos`
 
-In this part of the exercise, you will work with an existing `main.cpp` file, where you will fill in imporant parts yourself.
-The file is located at `/opt/trilinos_demo/exercises/ex_03_solve/src/main.cpp`.
-Places, where modifications are required, are encapsulated by the lines
-
-```cpp
-/* START OF TODO: <Short instruction> */
-...
-/* END OF TODO <Short instruction> */
-```
+As in exercise 1, fill in the missing lines of code in the locations marked by ``TODO`` comments.
 
 For now, you will use GMRES only without any preconditioner. In the code, you will skip all parts related to preconditioning for now and will come back to them later.
 

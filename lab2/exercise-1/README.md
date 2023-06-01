@@ -2,7 +2,7 @@ This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-doc
 
 # How to assemble a linear system in Tpetra?
 
-In this exercise, you will assemble a linear system arising from the finite element discretization of a one-dimensional Poisson problem (wihtout boundary conditions for simplicity).
+In this exercise, you will assemble a linear system arising from the finite difference discretization of a one-dimensional Poisson problem (with homogeneous Dirichlet boundary conditions for simplicity).
 The matrix will exhibit the well-know [-1, 2, -1] pattern in each row (except for the first and last row).
 
 ## Didactic goals
@@ -18,7 +18,6 @@ You will learn
 ## Complete the application's source code
 
 In this part of the exercise, you will work with an existing `main.cpp` file, where you will fill in imporant parts yourself.
-The file is located at `/opt/trilinos_demo/exercises/ex_02_assemble/src/main.cpp`.
 Places, where modifications are required, are encapsulated by the lines
 
 ```cpp
