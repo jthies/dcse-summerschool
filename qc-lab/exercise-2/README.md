@@ -36,7 +36,7 @@ In this exercise we will consider the MaxCut problem and study its QUBO formulat
    ```
    sampler = DWaveSampler(region='eu-central-1', solver='Advantage_system5.3')
    ```
-   If you have copied the provided [dwave.conf](../exercise-1/dwave.conf) you can easily switch between different profiles
+   If you have copied the provided [dwave.conf](../dwave.conf) you can easily switch between different profiles
    ```
    sampler = DWaveSampler(profile='eu')
    sampler = DWaveSampler(profile='na-1')
