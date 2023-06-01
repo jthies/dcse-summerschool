@@ -4,6 +4,9 @@ In this lab, we want to compute the LU decomposition of a dense matrix
 on a shared-memory system (i.e., a multi-core CPU). You will use OpenMP
 parallel loops and tasks to parallelize this important numerical algorithm.
 
+**Caveat:** This is a very simple algorithm that is not numerically stable unless the
+matrix has large values on the diagonal.
+
 ## What you will practice here
 
 - understanding block-wise algorithms for dense linear algebra
@@ -66,7 +69,7 @@ The next step would then to factor $`S = L_{22}\cdot U_{22}`$.
 
 1. Look through the program code ``task_lu.cpp`` to understand its structure.
    In particular, go through the block-wise LU decomposition algorithm in ``factorize_loop_parallelized``
-   and understand how it uses the three building blocks ``diag_fact``, ``row_update``, ``col_update`` and ``trail_update``
+   and understand how it uses the four building blocks ``diag_fact``, ``row_update``, ``col_update`` and ``trail_update``
    to implement the algorithm.
 2. Following the comments in ``factorize_loop_parallelized``, insert OpenMP pragma's to achieve shared-memory parallelization.
    Set the macro ``BENCH_FACTORIZE`` to 1 to benchmark the parallel code.
