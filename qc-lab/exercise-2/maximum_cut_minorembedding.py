@@ -55,7 +55,7 @@ hwGraph = sampler.to_networkx_graph()
 embedding = minorminer.find_embedding(Q, hwGraph)
 
 print(embedding)
-#embedding = {1: [492], 2: [507], 3: [5237], 4: [522], 5: [5252]}
+#embedding = {1: [69], 2: [433], 3: [417], 4: [125], 5: [122]}
 
 
 fixedSampler = FixedEmbeddingComposite(sampler, embedding)
