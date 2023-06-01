@@ -16,9 +16,9 @@
      . ocean/bin/activate
      ```
      
-   - Install the Ocean SDK
+   - Install the Ocean SDK and other packages needed for the exercises
      ```
-     pip install dwave-ocean-sdk
+     pip install dwave-ocean-sdk dimod matplotlib minorminer networkx numpy scipy
      ```
      
    - Setup your configuration
