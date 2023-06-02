@@ -1,7 +1,7 @@
 // Copyright 2021 Alexander Heinlein
 // Contact: Alexander Heinlein (a.heinlein@tudelft.nl)
 
-#include "../headers_and_helpers.hpp"
+#include "utils.hpp"
 
 int main (int argc, char *argv[])
 {

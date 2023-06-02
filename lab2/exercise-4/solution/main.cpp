@@ -17,10 +17,11 @@ int main (int argc, char *argv[])
     CommandLineProcessor clp;
     int dimension = 2; clp.setOption("dim",&dimension,"Dimension: 2 or 3");
     string equation = "laplace"; clp.setOption("eq",&equation,"Type of problem: 'laplace' or 'elasticity'");
-    int M = 10; clp.setOption("m",&M,"H/h (default 10)");
-    string xmlFile = "parameters.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
+    int M = 10; clp.setOption("m",&M,"Subdomain size: H/h (default 10)");
+    string preconditioner = "1lvl"; clp.setOption("prec",&preconditioner,"Preconditioner type: 'none', '1lvl', or '2lvl'");
+    string xmlFile = "parameters-2d.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
     bool useEpetra = false; clp.setOption("epetra","tpetra",&useEpetra,"Linear algebra framework: 'epetra' or 'tpetra' (default)");
-    int V = 0; clp.setOption("v",&V,"Verbosity Level.\nVERB_DEFAULT=-1, VERB_NONE=0 (default), VERB_LOW=1, VERB_MEDIUM=2, VERB_HIGH=3, VERB_EXTREME=4");
+    int V = 0; clp.setOption("v",&V,"Verbosity Level: VERB_DEFAULT=-1, VERB_NONE=0 (default), VERB_LOW=1, VERB_MEDIUM=2, VERB_HIGH=3, VERB_EXTREME=4");
     bool write = false; clp.setOption("write","no-write",&write,"Write VTK files of the partitioned solution: 'write' or 'no-write' (default)");
     bool timers = false; clp.setOption("timers","no-timers",&timers,"Show timer overview: 'timers' or 'no-timers' (default)");
     clp.recogniseAllOptions(true);
@@ -128,7 +129,27 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> III. Construct Schwarz preconditioner\n";
     if (verbose) cout << endl;
 
-    if (verbose) cout << "Preconditioner still missing" << endl;
+    // FROSch preconditioner for Belos
+    RCP<operatort_type> belosPrec;
+    if (!preconditioner.compare("1lvl")) {
+        RCP<onelevelpreconditioner_type> prec(new onelevelpreconditioner_type(A,precList)); // one-level Schwarz preconditioner
+        prec->initialize(false); // setup part 1: initialize
+        prec->compute(); // setup part 2: compute
+        belosPrec = rcp(new xpetraop_type(prec));
+    } else if (!preconditioner.compare("2lvl")) {
+        RCP<twolevelpreconditioner_type> prec(new twolevelpreconditioner_type(A,precList)); // two-level Schwarz preconditioner
+        if (!equation.compare("laplace")) {
+            prec->initialize(false); // setup part 1: initialize
+        } else {
+            precList->set("Null Space Type","Linear Elasticity"); // Specify that the coarse space for linear elasticity has to be built
+            prec->initialize(dimension,dimension,precList->get("Overlap",1),null,coordinates); // setup part 1: initialize
+        }
+        prec->compute(); // setup part 2: compute
+        belosPrec = rcp(new xpetraop_type(prec));
+    } else if (!preconditioner.compare("none")) {
+    } else {
+        FROSCH_ASSERT(false,"Preconditioner type unkown!")
+    }
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -136,27 +157,19 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> IV. Solve the linear equation system using GMRES\n";
     if (verbose) cout << endl;
 
-    RCP<operatort_type> belosA = rcp(new xpetraop_type(A)); // Wrapper for the system matrix
+    // Set up the linear equation system for Belos
+    RCP<operatort_type> belosA = rcp(new xpetraop_type(A));
+    RCP<linear_problem_type> linear_problem (new linear_problem_type(belosA,x,b));
+    linear_problem->setProblem(x,b);
+    if (preconditioner.compare("none")) {
+        linear_problem->setRightPrec(belosPrec); // Specify the preconditioner
+    }
 
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + Create a Belos::LinearProblem from belosA, x, and b
-    ============================================================================
-    */
-
-    Belos::SolverFactory<scalar_type,multivector_type,operatort_type> solverfactory;
-
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + Create a Belos::SolverManager via the solverfactory
-    + Specify the linear problem defined above
-    + Solve the linear problem
-    ============================================================================
-    */
+    // Build the Belos iterative solver
+    solverfactory_type solverfactory;
+    RCP<solver_type> solver = solverfactory.create(parameterList->get("Belos Solver Type","GMRES"),belosList);
+    solver->setProblem(linear_problem);
+    solver->solve(); // Solve the linear system
 
     x->describe(*out,verbosityLevel);
 
