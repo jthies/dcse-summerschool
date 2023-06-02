@@ -11,7 +11,7 @@ if [[ "${HOSTNAME}" =~ "gpu" ]]; then
 else
   module load 2023rc1-gcc11
   module load openblas
-  export TRILINOS_ROOT=/beegfs/apps/unsupported/trilinos-devel/compute/
+  export TRILINOS_ROOT=/beegfs/apps/unsupported/trilinos-devel/compute-likwid/
   export OMPI_CXX=g++
 fi
 
