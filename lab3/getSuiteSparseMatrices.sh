@@ -1,5 +1,6 @@
-cd $SCRATCH
-mkdir -p suite-sparse-matrices
+#!/bin/bash
+
+mkdir -p cd /scratch/$USER/suite-sparse-matrices
 cd suite-sparse-matrices
 
 matrices="af_shell10 kkt_power Transport"
