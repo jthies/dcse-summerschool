@@ -8,17 +8,18 @@ of all sparse iterative solvers and investigate its performance using the tools 
 
 - applying the Roofline model
 - getting information from performance counters with likwid
-- relating the gathered data back ot the model
+- relating the gathered data back to the model
 
 # Setup on DelftBlue
 
 The exercise is based on Trilinos, like lab2.
-- As before, use ``source env.sh`` to get setup the environment.
-- run ``./getSuiteSparseMatrices.sh`` to download some interesting sparse matrices from Gerhard Welleins lecture.
+- As before, use ``source env.sh`` to setup the environment.
+- Run ``./getSuiteSparseMatrices.sh`` to download some interesting sparse matrices from Gerhard Welleins lecture.
 They will be extracted in your scratch space under /scratch/$USER/suite-sparse-matrices/
 
 Using likwid requires certain settings that are only available on the reserved nodes. The measurements
-concern multi-core CPUs: you may run the benchmarks without likwid on a GPU for fun and see how that works out.
+concern multi-core CPUs: you may run the benchmarks without likwid on a GPU for fun and see how that works out
+(adapt a the ``compile_and_run_on_gpu.slurm`` script from lab2).
 
 # Your tasks
 
