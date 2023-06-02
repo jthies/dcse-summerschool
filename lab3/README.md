@@ -28,7 +28,8 @@ concern multi-core CPUs: you may run the benchmarks without likwid on a GPU for 
     - loading one integer per row (row pointer)
     - loading once the input vector `x`
     - loading and storing once the result vector `y=Ax.`  
-    What is the computational intensity (ratio of Flops/Byte) for performing an SpMV? Is this compute- or memory-bound?
+    What is the computational intensity (ratio of Flops/Byte) for performing an SpMV? Is this compute- or memory-bound?  
+    **Hint:** the first non-comment line in a MatrixMarket file contains the number of rows, columns and non-zero elements of the matrix.
 1. Run the driver with this matrix, measuring the MEM_DP group with ``likwid-perfctr.``
    Use four MPI processes with 12 threads each.
    This is set up for you in the job script. Submit it with, e.g.: ``sbatch run_spmv_on_cpu.sh /scratch/$USER/suite-sparse-matrices/af_shell10.mtx``.
