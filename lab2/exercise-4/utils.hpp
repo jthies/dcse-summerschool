@@ -1,8 +1,8 @@
 // Copyright 2021 Alexander Heinlein
 // Contact: Alexander Heinlein (a.heinlein@tudelft.nl)
 
-#ifndef _HEADERS_AND_HELPERS_
-#define _HEADERS_AND_HELPERS_
+#ifndef _UTILS
+#define _UTILS
 
 // std
 #include <fstream>
@@ -10,26 +10,6 @@
 #include <sstream>
 #include <stdlib.h>
 #include <exception>
-
-#ifdef HAVE_Boost
-#include <boost/filesystem.hpp>
-#endif
-
-#ifdef HAVE_VTK
-#include <vtkVersion.h>
-#include <vtkSmartPointer.h>
-#include <vtkCellArray.h>
-#include <vtkRectilinearGrid.h>
-#include <vtkXMLPRectilinearGridWriter.h>
-#include <vtkXMLRectilinearGridWriter.h>
-#include <vtkNew.h>
-#include <vtkPoints.h>
-#include <vtkDataArray.h>
-#include <vtkPointData.h>
-#include <vtkCellData.h>
-#include <vtkMath.h>
-#include <vtkDoubleArray.h>
-#endif
 
 // Belos
 #include <BelosLinearProblem.hpp>
@@ -160,97 +140,5 @@ int assembleSystemMatrix (RCP<const Comm<int> > comm,
     }
     return 0;
 }
-
-#if defined (HAVE_VTK) && defined (HAVE_Boost)
-template<int dimension, int dofsPerNode>
-int writeSolVTK (string type,
-                 int N,
-                 int M,
-                 const Teuchos::ArrayView<const double> &p0,
-                 RCP<multivector_type> x)
-{
-    FROSCH_ASSERT(!x.is_null(),"x is null.");
-
-    string output_foldername = string("./out-") + type;
-    char number[9];
-    sprintf (number, "%07d", x->getMap()->getComm()->getRank());
-    #ifdef HAVE_Boost
-        const boost::filesystem::path dir(output_foldername);
-        if (dir.string() != ".")
-        boost::filesystem::create_directories(dir);
-    #endif
-
-    string filename_sol = string("./") + output_foldername + string("/sol_") + number + string(".vtr");
-
-    vtkSmartPointer<vtkDoubleArray> xpoints = vtkSmartPointer<vtkDoubleArray>::New();
-    vtkSmartPointer<vtkDoubleArray> ypoints = vtkSmartPointer<vtkDoubleArray>::New();
-    vtkSmartPointer<vtkDoubleArray> zpoints = vtkSmartPointer<vtkDoubleArray>::New();
-    for (size_t i = 0; i < M+1; i++) {
-        xpoints->InsertNextValue(p0[0]+double(i)/(M*N-1));
-        ypoints->InsertNextValue(p0[1]+double(i)/(M*N-1));
-    }
-
-    vtkNew<vtkRectilinearGrid> grid;
-    if (dimension == 2) {
-        grid->SetDimensions(M+1, M+1, 1);
-
-        zpoints->InsertNextValue(0.0);
-    } else if (dimension == 3) {
-        grid->SetDimensions(M+1, M+1, M+1);
-
-        for (size_t i = 0; i < M+1; i++) {
-            zpoints->InsertNextValue(p0[2]+double(i)/(M*N-1));
-        }
-    }
-    grid->SetXCoordinates(xpoints);
-    grid->SetYCoordinates(ypoints);
-    grid->SetZCoordinates(zpoints);
-
-    vtkSmartPointer<vtkDoubleArray> solution_array = vtkSmartPointer<vtkDoubleArray>::New();
-    solution_array->SetNumberOfComponents(dofsPerNode);
-    solution_array->SetName("u");
-    for (int i = 0; i < x->getLocalLength()/dofsPerNode; i++) {
-        solution_array->InsertNextTuple(&x->getData(0)[dofsPerNode*i]);
-    }
-    grid->GetCellData()->AddArray(solution_array);
-
-    vtkNew<vtkXMLRectilinearGridWriter> writer;
-    writer->SetFileName(filename_sol.c_str());
-    writer->SetInputData(grid);
-    writer->Write();
-
-    return 0;
-}
-
-int writeVTK (string equation,
-              int dimension,
-              int N,
-              int M,
-              RCP<multivector_type> coordinates,
-              RCP<multivector_type> x)
-{
-    using Teuchos::tuple;
-
-    FROSCH_ASSERT(!coordinates.is_null(),"coordinates is null.");
-    FROSCH_ASSERT(!x.is_null(),"x is null.");
-
-    if (dimension == 2) {
-        const double x0 = coordinates->getData(0)[0], y0 = coordinates->getData(1)[0];
-        if (!equation.compare("laplace")) {
-            return writeSolVTK<2,1>("laplace2d",N,M,tuple<double>(x0,y0),x);
-        } else {
-            return writeSolVTK<2,2>("elasticity2d",N,M,tuple<double>(x0,y0),x);
-        }
-    } else if (dimension == 3) {
-        const double x0 = coordinates->getData(0)[0], y0 = coordinates->getData(1)[0], z0 = coordinates->getData(2)[0];
-        if (!equation.compare("laplace")) {
-            return writeSolVTK<3,1>("laplace3d",N,M,tuple<double>(x0,y0,z0),x);
-        } else {
-            return writeSolVTK<3,3>("elasticity3d",N,M,tuple<double>(x0,y0,z0),x);
-        }
-    }
-    return -1;
-}
-#endif
 
 #endif

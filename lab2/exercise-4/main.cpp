@@ -1,7 +1,7 @@
 // Copyright 2021 Alexander Heinlein
 // Contact: Alexander Heinlein (a.heinlein@tudelft.nl)
 
-#include "../headers_and_helpers.hpp"
+#include "utils.hpp"
 
 int main (int argc, char *argv[])
 {
@@ -130,16 +130,12 @@ int main (int argc, char *argv[])
 
     // FROSch preconditioner for Belos
     RCP<operatort_type> belosPrec;
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + Create a FROSch::TwoLevelPreconditioner prec
-    + initialize() prec
-    + compute() prec
-    + Convert prec into the RCP<OperatorT<multivector_type> > or RCP<operatort_type>, respectively, belosPrec
-    ============================================================================
-    */
+
+    /* START OF TODO: Create a FROSch::TwoLevelPreconditioner */
+
+
+
+    /* END OF TODO: Create a FROSch::TwoLevelPreconditioner */
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -171,19 +167,6 @@ int main (int argc, char *argv[])
     A->apply(*x,*b,Teuchos::NO_TRANS,static_cast<scalar_type> (-1.0),static_cast<scalar_type> (1.0));
     double normRes = b->getVector(0)->norm2();
     if (verbose) cout << "2-Norm of the residual = " << normRes << endl;
-
-#if defined (HAVE_VTK) && defined (HAVE_Boost)
-    // Write the solution to files (parallel)
-    if (write) {
-        ////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////
-        if (verbose) cout << endl;
-        if (verbose) cout << ">> VI. Write the result\n";
-        if (verbose) cout << endl;
-
-        writeVTK(equation,dimension,N,M,coordinates,x);
-    }
-#endif
 
     if (verbose) cout << "Finished!" << endl;
 
