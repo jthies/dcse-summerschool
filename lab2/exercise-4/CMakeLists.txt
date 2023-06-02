@@ -37,8 +37,8 @@ set(CMAKE_C_FLAGS "${Trilinos_C_COMPILER_FLAGS} ${CMAKE_C_FLAGS}")
 # Test
 add_executable(main.x main.cpp)
 
-target_include_directories(main.x PRIVATE ${Trilinos_INCLUDE_DIRS})
-target_link_libraries(main.x ${Trilinos_LIBRARIES})
+target_include_directories(main.x PRIVATE ${Trilinos_INCLUDE_DIRS} ${Trilinos_TPL_INCLUDE_DIRS})
+target_link_libraries(main.x ${Trilinos_LIBRARIES} ${Trilinos_TPL_LIBRARY_DIRS})
 
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/parameters-2d.xml
   DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
