@@ -21,6 +21,13 @@
 // Nr of threads per threadblock or blocksize (MAX = 16x16 for NVS290)
 #define MAXBLOCKSIZE 256
 
+/* multiply C = A*B, where A, B and C are stored in row-major order,
+   A is (n x n), B and C are n x k (n rows and k columns).
+   Note that due to the fact that BLAS routines assume column-major ordering,
+   we need to pretend we do the operation C = (A^T*B^T), where OP(B)=B^T is n x k.
+*/
+void matmatProdGPU(float const* d_A, float const* d_B, float *d_C, long n, long k, long threadsPerBlock);
+
 int main(int argc, char** argv)
 {
    struct timespec ti1,ti2;
@@ -35,7 +42,7 @@ int main(int argc, char** argv)
 
    if(argc >=4 ) sscanf(argv[3],"%d",&num_runs);
 
-   intensity = ((double)(dim_n*dim_n + 3.0*dim_n*dim_k)*8.0 / (double)(dim_n*dim_n*dim_k*2.0);
+   intensity = ((double)(dim_n*dim_n + 3.0*dim_n*dim_k)*8.0) / (double)(dim_n*dim_n*dim_k*2.0);
 
    clock_gettime(CLOCK_REALTIME,&ti1);
 
@@ -63,18 +70,18 @@ int main(int argc, char** argv)
    runtime = (ti2.tv_sec - ti1.tv_sec) + 1e-9*(ti2.tv_nsec - ti1.tv_nsec);
    // memory traffic: load matrix (n*n) and vector (n), load+store result
    // (unless a streaming ("non-temporal") store is used)
-   bandwidth = ((double)(dim_n*dim_n+3*dim_n*dim_m)*sizeof(float))/runtime*1e-9*num_runs;
+   bandwidth = ((double)(dim_n*dim_n+3*dim_n*dim_k)*sizeof(float))/runtime*1e-9*num_runs;
    floprate = ((double)(dim_n*dim_n*dim_k*2))/runtime*1e-9*num_runs;
 
-   showMatrix("A",d_A,dim,dim);
-   showVector("x",d_x,dim);
-   showVector("b",d_b,dim);
+   showMatrix("A",d_A,dim_n,dim_n);
+   showMatrix("B",d_B,dim_n,dim_k);
+   showMatrix("C",d_C,dim_n,dim_k);
 
    /* Memory clean up */
 
    freeCudaUnified(d_A);
-   freeCudaUnified(d_x);
-   freeCudaUnified(d_b);
+   freeCudaUnified(d_B);
+   freeCudaUnified(d_C);
 
    fflush(stderr);
    fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): computational intensity = %f Flops/Byte.",dim_n,dim_n,dim_k,intensity);

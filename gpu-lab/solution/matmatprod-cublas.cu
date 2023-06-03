@@ -26,6 +26,7 @@
 */
 void matmatProdGPU(float const* d_A, float const* d_B, float *d_C, long n, long k, long threadsPerBlock)
 {
+
    float alpha=1.0, beta=0.0;
    /* note: because we use row-major storage of A, we have to ask for the transposed operation
       from CuBLAS, which also means we need to swap the row and column dimensions...
