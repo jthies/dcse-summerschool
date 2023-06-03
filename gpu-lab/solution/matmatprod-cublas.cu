@@ -28,14 +28,14 @@ void matmatProdGPU(float const* d_A, float const* d_B, float *d_C, long n, long 
 
    float alpha=1.0, beta=0.0;
 
-   /* note: because we use row-major storage of A, B and C, we have to ask for the transposed operation
-      from CuBLAS, which also means we need to swap the row and column dimensions.
-      C = A*B = (B^T*A^T)^T
+   /* note: because we use row-major storage of A, B and C,we have to be careful here:
+   CUBLAS assumes the are all in column-major storage, so it sees the matrices as transposed arrays
+   (if passed the correct dimensions and strides). From the input matrices A^T and B^T, we can construct
+   C^T as C^T = (A*B)^T = B^T*A^T, so we just swap the matrices and we're done.
+   The strides (or leading dimensions) remain the number of columns in the original matrices A, B, C.
 
-      According to the documentation, we need to pass in AA, BB and CC such that CC = opA(AA)*opB(BB), and N, M, K s.t. opA(AA) is MxK, op(BB) is KxN and CC is MxN
-      For us this means: AA^T=B^T is k x n, BB^T=A^T is n x n, and CC=C^T is k x n
     */
-   cublasSgemm('T', 'T', n, k, n, alpha, d_B, n, d_A, n, beta, d_C, k);
+   cublasSgemm('N', 'N', k, n, n, alpha, d_B, k, d_A, n, beta, d_C, k);
    cudaGetLastError();
    checkCudaError("Kernel execution error !");
 }
