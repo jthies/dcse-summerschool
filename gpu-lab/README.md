@@ -67,5 +67,7 @@ for (int i=0; i<num_runs; i++)
    ```
    and to print both memory bandwidth and performance (in GFlop/s). Increase ``k`` starting from 1 in a series
    of runs and observe how the computational intensity changes.
-   The cublas 'gemm' documentation can be found [here](https://docs.nvidia.com/cuda/cublas/index.html#cublas-t-gemm).
+   The cublas 'gemm' documentation can be found [here](https://docs.nvidia.com/cuda/cublas/index.html#cublas-t-gemm).  
+   **Caveat:** Since CuBLAS assumes column-major storage, you are actually passing in the transposed of A, and B, and
+   getting back the transposed of the operation you asked for in C.
 
