@@ -42,7 +42,7 @@ int main(int argc, char** argv)
 
    if(argc >=4 ) sscanf(argv[3],"%d",&num_runs);
 
-   intensity = ((double)(dim_n*dim_n + 3.0*dim_n*dim_k)*8.0) / (double)(dim_n*dim_n*dim_k*2.0);
+   intensity = (double)(dim_n*dim_n*dim_k*2.0) / ((double)(dim_n*dim_n + 3.0*dim_n*dim_k)*8.0);
 
    clock_gettime(CLOCK_REALTIME,&ti1);
 
@@ -86,7 +86,7 @@ int main(int argc, char** argv)
    fflush(stderr);
    fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): computational intensity = %f Flops/Byte.",dim_n,dim_n,dim_k,intensity);
    fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): average run time = %f secs.",dim_n,dim_n,dim_k,runtime/num_runs);
-   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): memory bandwidth = %f GB/s.\n",dim_n,dim_n,dim_k,bandwidth);
+   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): memory bandwidth = %f GB/s.",dim_n,dim_n,dim_k,bandwidth);
    fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): performance = %f Gflop/s.\n",dim_n,dim_n,dim_k,floprate);
 
    return EXIT_SUCCESS;
