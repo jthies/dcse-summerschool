@@ -13,7 +13,7 @@ NVCC_FLAGS=-O3 --gpu-architecture=sm_70
 CUDA_SOURCES=matvecprod-main.cu matvec_helpers.cu matvec_helpers_um.cu
 
 CPU_DRIVERS=matvecprod-cpu.x matvecprod-cpu-mkl.x #matvecprod-cpu-openblas.x
-GPU_DRIVERS=matvecprod-globalmem-simple_um.x matvecprod-sharedmem-simple_um.x matvecprod-sharedmem-blocks_um.x matvecprod-offload.x matvecprod-cublas.x
+GPU_DRIVERS=matvecprod-globalmem-simple_um.x matvecprod-sharedmem-simple_um.x matvecprod-offload.x matvecprod-cublas.x
 
 cpu: ${CPU_DRIVERS}
 gpu: ${GPU_DRIVERS}
