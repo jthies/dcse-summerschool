@@ -25,7 +25,7 @@ void matvecProdGPU(float *d_A, float *d_x, float *d_b, long m, long n, long thre
    /* note: because we use row-major storage of A, we have to ask for the transposed operation
       from CuBLAS, which also means we need to swap the row and column dimensions...
     */
-   cublasSgemv(CUBLAS_OP_T, n, m, alpha, d_A, n, d_x, 1, beta, d_b, 1);
+   cublasSgemv('T', n, m, alpha, d_A, n, d_x, 1, beta, d_b, 1);
    cudaGetLastError();
    checkCudaError("Kernel execution error !");
 }
