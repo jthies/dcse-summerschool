@@ -24,7 +24,7 @@
 int main(int argc, char** argv)
 {
    struct timespec ti1,ti2;
-   double runtime, bandwidth, floprate;
+   double runtime, bandwidth, floprate, intensity;
    long dim_n = 4, dim_k=1;
    int num_runs=300;
    float *d_A = 0, *d_B = 0, *d_C = 0;
@@ -34,6 +34,8 @@ int main(int argc, char** argv)
    if(argc >=3 ) sscanf(argv[2],"%ld",&dim_k);
 
    if(argc >=4 ) sscanf(argv[3],"%d",&num_runs);
+
+   intensity = ((double)(dim_n*dim_n + 3.0*dim_n*dim_k)*8.0 / (double)(dim_n*dim_n*dim_k*2.0);
 
    clock_gettime(CLOCK_REALTIME,&ti1);
 
@@ -47,7 +49,7 @@ int main(int argc, char** argv)
 
    /* Clear last error */
    cudaGetLastError();
-   
+
    /* Performs operation using Cuda kernel above */
    for (int i=0; i<num_runs; i++)
    {
@@ -75,9 +77,10 @@ int main(int argc, char** argv)
    freeCudaUnified(d_b);
 
    fflush(stderr);
-   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): average run time = %f secs.",runtime/num_runs);
-   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): memory bandwidth = %f GB/s.\n",bandwidth);
-   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): performance = %f Gflop/s.\n",floprate);
-   
+   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): computational intensity = %f Flops/Byte.",dim_n,dim_n,dim_k,intensity);
+   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): average run time = %f secs.",dim_n,dim_n,dim_k,runtime/num_runs);
+   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): memory bandwidth = %f GB/s.\n",dim_n,dim_n,dim_k,bandwidth);
+   fprintf(stderr,"\nCuBLAS GEMM (%d x %d x %d): performance = %f Gflop/s.\n",dim_n,dim_n,dim_k,floprate);
+
    return EXIT_SUCCESS;
 }
