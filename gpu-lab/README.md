@@ -45,12 +45,18 @@ for (int i=0; i<num_runs; i++)
 // omp target code using a on the device
 }
 ```
-5. We have provided several CUDA-based implementations. The timing and bandwidth results that the driver reports
+
+## Further experiments for GEMV
+
+- We have provided several CUDA-based implementations. The timing and bandwidth results that the driver reports
    includes transferring matrix and vectors to the device, and the result vector back. Can you determine the time
    for these data transfers using one of the drivers?
-6. Choose suitable values for <dim> and <num_runs>, and compare the memory bandwidth achieved with your OpenMP variant,
+- Choose suitable values for <dim> and <num_runs>, and compare the memory bandwidth achieved with your OpenMP variant,
    the various CUDA implementations and the one using cuBLAS.
-7. Extend the cuBLAS driver to perform a general matrix-matrix (GEMM) operation instead of GEMV:
+
+## Extension to Matrix-Matrix (GEMM)
+
+- Extend the cuBLAS driver to perform a general matrix-matrix (GEMM) operation instead of GEMV:
    ```math
    C = A\cdot B, A\in \mathbb{R}^{m\times n}, B\in\mathbb{R}^{n\times k}, C\in\mathbb{R}^{m\times k}.
    ```
