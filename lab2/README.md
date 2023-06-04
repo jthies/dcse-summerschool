@@ -6,17 +6,18 @@ We will assess the suitability of various solvers and preconditioners for CPU an
 
 ## What you will practice here
 
-- compile and run MPI+X code (Modules, CMake, slurm, CPU and GPU nodes)
-- creating sparse linear systems with Trilinos
-- solving them using preconditioned Krylov methods
-- deciding which algorithms are suitable for which platform
+- Compile and run MPI+X code (Modules, CMake, slurm, CPU and GPU nodes)
+- Creating sparse linear systems with Trilinos
+- Solving them using preconditioned Krylov methods
+- Deciding which algorithms are suitable for which platform
 
 ## Your tasks
 
 There are three individual exercises on
 - [Creating and filling matrices and vectors](exercise-1)
 - [Iterative solution of linear systems](exercise-2)
-- [Using an advanced Domain-Decomposition preconditioner (FROSch)](exercise-3)
+- [One-level Schwarz domain decomposition preconditioner using FROSch](exercise-3)
+- [Two-level Schwarz domain decomposition preconditioner using FROSch](exercise-4)
 
 ## Setup on DelftBlue
 

@@ -21,7 +21,6 @@ int main (int argc, char *argv[])
     string xmlFile = "parameters-2d.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
     bool useEpetra = false; clp.setOption("epetra","tpetra",&useEpetra,"Linear algebra framework: 'epetra' or 'tpetra' (default)");
     int V = 0; clp.setOption("v",&V,"Verbosity Level: VERB_DEFAULT=-1, VERB_NONE=0 (default), VERB_LOW=1, VERB_MEDIUM=2, VERB_HIGH=3, VERB_EXTREME=4");
-    bool write = false; clp.setOption("write","no-write",&write,"Write VTK files of the partitioned solution: 'write' or 'no-write' (default)");
     bool timers = false; clp.setOption("timers","no-timers",&timers,"Show timer overview: 'timers' or 'no-timers' (default)");
     clp.recogniseAllOptions(true);
     clp.throwExceptions(true);

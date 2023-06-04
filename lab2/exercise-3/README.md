@@ -1,8 +1,73 @@
-# Exercise 2 - Implementing a One-Level Schwarz Preconditioner Using `FROSch`
+# Exercise 3 - One-level Schwarz Domain Decomposition Preconditioner Using `FROSch`
 
-Whereas, in exercise 1, we have implemented an iterative `Belos` solver for the linear system, we will now add a one-level Schwarz domain decomposition preconditioner to accelerate the convergence of the iterative solver. In particular, in part III of the code, we will construct and set up the preconditioner, and in part IV, we will specify it as the preconditioner for the iterative solver:
+In the previous two exercises, you have learned how to:
 
-1. The one-level Schwarz preconditioner object is constructed using the matrix `A` and parameter list `precList` objects:
++ create and fill parallel distributed matrices and vectors and 
++ solve a linear equation system using an iterative solver with a simple `Ifpack2` preconditioner.
+
+In this exercise and the [next exercise](../exercise-4), you will learn about the use of more **advanced preconditioning techniques based on domain decomposition methods**. Therefore, you will construct preconditioner objects using the [FROSch (Fast and Robust Overlapping Schwarz) package](https://shylu-frosch.github.io/) of Trilinos:
+
++ **This exercise:** One-level Schwarz preconditioner
++ **[Next exercise](../exercise-4):** Two-level Schwarz preconditioner
+
+## Didactic goals
+
+Upon completion of this exercise, you should be able to:
+
++ construct a one-level Schwarz preconditioner for a given matrix using the FROSch package.
++ employ a FROSch preconditioner object as a preconditioner for a `Belos` iterative solver.
++ change the preconditioner settings via the parameter list.
+
+ ## Base code
+
+The base code for this exercise, which is already prepared for you in the `main.cpp` file, implements a **simple Laplace or elasticity model problem in two or three dimensions**; the equation and dimension of the problem can be selected via the input parameters. The computational domain is the **unit square or cube** in two or three dimensions, respectively.
+
+![solution](https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true)
+
+The discrete linear equation system is assembled using the Trilinos package `Galeri`; the Laplace equation is discretized using finite differences and the linear elasticity equation using finite elements. 
+
+Without any code changes, the model problem is solved using an iterative `Belos` solver without any preconditioner.
+
+## Instructions
+
+The exercise consists of two parts: 
+
++ **Implementation:** add missing lines of code. The corresponding locations are marked by
+
+   ```
+   /* START OF TODO: FROSch::OneLevelPreconditioner */
+   
+   
+   
+   /* END OF TODO: FROSch::OneLevelPreconditioner */
+   ```
+
++ **Numerical experiments:** run numerical experiments to test the preconditioner. The programs can be executed as follows:
+
+   ```shell
+   mpirun -n 4 ./solution.exe [options]
+   ```
+
+   In this case, the test is run on 4 MPI ranks. Since FROSch **assumes a one-to-one correspondence of MPI ranks and subdomains**, the test automatically uses 4 subdomains. Moreover, the tests are based on a structured domain decomposition with
+
+   + <img src="https://render.githubusercontent.com/render/math?math=N^2"> subdomains in two dimensions and
+   + <img src="https://render.githubusercontent.com/render/math?math=N^3"> subdomains in three dimensions,
+
+   for some N.
+
+   ![subdomains](https://github.com/searhein/frosch-demo/blob/main/images/subdomains.png?raw=true)
+
+   The list of all options can be printed with:
+
+   ```shell
+   ./main.x --help
+   ```
+
+   Other settings may be changed by modifying the parameter list files `parameters-2d.xml` and `parameters-3d.xml` for the 2D and 3D cases, respectively.
+
+### Implementation
+
+1. Construct a one-level Schwarz preconditioner object using the matrix `A` and parameter list `precList` objects:
 
    ```c++
    RCP<onelevelpreconditioner_type> prec(new onelevelpreconditioner_type(A,precList));
@@ -10,13 +75,15 @@ Whereas, in exercise 1, we have implemented an iterative `Belos` solver for the 
 
    **Note:**
 
-   + In the file `headers_and_helpers.hpp`, the type `onelevelpreconditioner_type` is defined:
+   + In the file `utils.hpp`, the type `onelevelpreconditioner_type` is defined:
 
      ```c++
      typedef FROSch::OneLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type> onelevelpreconditioner_type;
      ```
+     
+     So the actual type of the preconditioner is `FROSch::OneLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type>`. It has the same template parameters as a `Tpetra` matrix or vector.
 
-2. The preconditioner is set up using `initialize()` and `compute()`. In the `initialize()` phase, the operations that depend on the structure of the matrix but are independent of matrix values are performed. In the `compute()` phase, the operations that depend on the matrix values are performed:
+2. The preconditioner is set up using `initialize()` and `compute()`. In the `initialize()` phase, the **operations that depend on the structure of the matrix but are independent of matrix values** are performed; this is similar to the symbolic factorization of a direct solver. In the `compute()` phase, the **operations that depend on the matrix values** are performed:
 
    ```c++
    prec->initialize(false);
@@ -39,11 +106,11 @@ Whereas, in exercise 1, we have implemented an iterative `Belos` solver for the 
    linear_problem->setRightPrec(belosPrec);
    ```
 
-## Numerical experiments
+### Numerical experiments
 
 Perform the following numerical experiments:
 
-+ How does the use of a one-level Schwarz preconditioner improve the convergence of the Krylov method? Compare the iteration counts against exercise 1.
++ How does the use of a one-level Schwarz preconditioner improve the convergence of the Krylov method? Compare the iteration counts against the corresponding unpreconditioned iteration.
 
 + Can you confirm the condition number bound 
 
