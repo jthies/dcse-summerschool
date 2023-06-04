@@ -26,27 +26,27 @@ cd build
 cmake ..
 make
 ```
-The following command gives you a list of all command-line options supported by the driver routine (main program):
+
+Note:
+- The following command gives you a list of all command-line options supported by the driver routine (main program):
 ```bash
 ./ifpack_driver.x --help |& less
 ```
-A sample job script is included.
+- The flag ``--listMethods`` prints some valid optins for the ``--solverTypes`` and ``--preconditionerTypes`` arguments.
+- In order to reduce the overhead of reading the large ASCII matrix file, you can run multiple solver/preconditioner
+cobinations by passing in a comma-separated list, e.g.: ``preconTypes="None,RELAXATION,ILUT". _Do not add whitespace after the commas_.
+- A sample job script is included.
 
-## Your task
+## Your tasks
 
-Choose any of the following methods to investigate. Many are available directly in the given ifpack_driver code by
-choosing the right input arguments. Collaborate with your classmates to try to solve the linear problem
-as fast as possible on a DelftBlue compute node and/or a V100s GPU. Make the comparison fair and transparent by
- measuring the time for setup of the preconditioner and running the solver separately.
+- Try some different preconditioners in combination with the GMRES solver to investigate what gives fast convergence, fast solve time,
+and fast overall time (including construction of the preconditioner).
+- Then switch to one of the matrices from yesterday's exercise. Look into the header of the matrix file to
+get some hints, and try different solver/preconditioner combinations.
+- Try running your optimal solver choices on a GPU. Are they still the best choice?
 
-1. s-step GMRES after left scaling of the linear problem (i.e.: Jacobi(1) preconditioning) (available as a solver variant in the ifpack_driver).
-2. GMRES preconditioned by **s Jacobi iterations** (see the "RELAXATION" preconditioner option in the ifpack_driver)
-3. GMRES preconditioned by a degree-s **GMRES polynomial**. See [this Belos class](https://docs.trilinos.org/dev/packages/belos/doc/html/classBelos_1_1GmresPolySolMgr.html#details).
-4. The IDR(s) method provided as a Fortran code here (also supports polynomial preconditioning)
-5. Your own choice: e.g., other Krylov methods, a Domain Decomposition preconditioner, a Chebyshev polynomial preconditioner, etc.
+## Use Profiling to guide your parameter-tuning
 
-## Guiding your choices using builtin profiling
-
-Play with varying values of parameters like the polynomial degree s, and see how the balance between e.g. SpMV's, preconditioner application and orthogonalization costs changes
-(these are reported separately by Belos).
-
+The choice of solver and preconditioner may shift the balance between the different types of
+basic operations (e.g. SpMV vs. BLAS1 vector operations). You can observe this effect in the 
+detailed timing output printed after each solve.

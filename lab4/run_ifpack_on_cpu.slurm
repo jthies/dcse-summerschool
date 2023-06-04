@@ -29,15 +29,15 @@ likwid-topology
 
 
 #settings
-preconType="RELAXATION"
-preconSubType="Symmetric Gauss-Seidel"
+preconType="None,Relaxation"
+preconSubType="Gauss-Seidel"
 solverType="TPETRA GMRES"
 
 echo "############ Running without LIKWID ################"
 export OMP_NUM_THREADS=${SLURM_CPUS_PER_TASK}
 export OMP_PLACES=cores
 export OMP_PROC_BIND=close
-srun ./ifpack_driver.x --matrixFilename="${matrix}" ${rhs_option} --convergenceTolerances=1e-8 --preconditionerTypes="${preconType}" --preconditionerSubType="${preconSubType}" --solverTypes="${solverType}"
+srun ./ifpack_driver.x --matrixFilename="${matrix}" ${rhs_option} --convergenceTolerances=1e-10 --preconditionerTypes="${preconType}" --preconditionerSubType="${preconSubType}" --solverTypes="${solverType}"
 
 #echo "############ Running with LIKWID ################"
 #TODO: does not work since space in arguments not allowed by LIKWID
