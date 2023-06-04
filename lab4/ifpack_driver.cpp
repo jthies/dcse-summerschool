@@ -2292,6 +2292,14 @@ main (int argc, char* argv[])
   }
 #endif
 
+  if (args.listMethods)
+  {
+    BelosIfpack2Solver<crs_matrix_type> solver (Teuchos::null);
+    std::cout << "Supported solvers and preconditioners:"<<std::endl;
+    solver.listSupportedMethods();
+    return EXIT_SUCCESS;
+  }
+
   if (args.matrixFilename == "") {
     if (comm->getRank () == 0) {
       cerr << "Must specify sparse matrix filename!" << endl;
@@ -2677,13 +2685,6 @@ main (int argc, char* argv[])
 
   // Create the solver.
   BelosIfpack2Solver<crs_matrix_type> solver (A);
-
-  if (args.listMethods)
-  {
-    std::cout << "Supported solvers and preconditioners:"<<std::endl;
-    solver.listSupportedMethods();
-    return EXIT_SUCCESS;
-  }
 
   std::string precSubType = preconditionerSubType;
   // Solve the linear system using various solvers and preconditioners.
