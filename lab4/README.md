@@ -16,6 +16,22 @@ For quick checks, use the small matrix lap128x128.mm, because the MomentumEQS ma
 - tuning solver parameters
 - performance analysis using likwid
 
+## Compiling and running the executable
+
+As before, use the following series of commands to build the application:
+```bash
+source env.sh
+mkdir build
+cd build
+cmake ..
+make
+```
+The following command gives you a list of all command-line options supported by the driver routine (main program):
+```bash
+./ifpack_driver.x --help |& less
+```
+A sample job script is included.
+
 ## Your task
 
 Choose any of the following methods to investigate. Many are available directly in the given ifpack_driver code by
@@ -29,15 +45,8 @@ as fast as possible on a DelftBlue compute node and/or a V100s GPU. Make the com
 4. The IDR(s) method provided as a Fortran code here (also supports polynomial preconditioning)
 5. Your own choice: e.g., other Krylov methods, a Domain Decomposition preconditioner, a Chebyshev polynomial preconditioner, etc.
 
-## Guiding your choices using builtin profiling and likwid
+## Guiding your choices using builtin profiling
 
-Play with varying values of the polynomial degree s, and see how the balance between e.g. SpMV's, preconditioner application and orthogonalization costs changes
+Play with varying values of parameters like the polynomial degree s, and see how the balance between e.g. SpMV's, preconditioner application and orthogonalization costs changes
 (these are reported separately by Belos).
-We have instrumented the Trilinos code sections timed by Belos using ``likwid`` markers.
-The command
-```
-likwid-perfctr -m -C 0-47 -g MEM_DP <program> <args>
-```
-can be used to read out the most relevant performnace group and report computational intensity.
-Observe, e.g., how the computational intensity of the s-step GMRES method increases with s, and how
-the orthogonalization cost increases with the number of (outer) GMRES iterations needed.
+
