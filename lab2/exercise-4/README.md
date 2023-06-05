@@ -33,11 +33,11 @@ The exercise consists of two parts:
 + **Implementation:** add missing lines of code. The corresponding locations are marked by
 
   ```
-  /* START OF TODO: FROSch::OneLevelPreconditioner */
+  /* START OF TODO: FROSch::TwoLevelPreconditioner */
   
   
   
-  /* END OF TODO: FROSch::OneLevelPreconditioner */
+  /* END OF TODO: FROSch::TwoLevelPreconditioner */
   ```
 
 + **Numerical experiments:** run numerical experiments to test the preconditioner. The programs can be executed as follows:
