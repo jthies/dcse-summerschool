@@ -15,8 +15,8 @@ module load likwid
 
 LAUNCH="srun"
 
-NDIM=20000
-NRUNS=1000
+NDIM=10000
+NRUNS=100
 
 echo "running on node `hostname`"
 nvidia-smi
@@ -35,7 +35,4 @@ ${LAUNCH} ./matvecprod-globalmem-simple_um.x ${NDIM} ${NRUNS}
 
 echo "CUDA, shared memory"
 ${LAUNCH} ./matvecprod-sharedmem-simple_um.x ${NDIM} ${NRUNS}
-
-echo "CUDA, shared memory, blocks"
-${LAUNCH} ./matvecprod-sharedmem-blocks_um.x ${NDIM} ${NRUNS}
 
