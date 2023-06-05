@@ -130,11 +130,11 @@ int main (int argc, char *argv[])
     // FROSch preconditioner for Belos
     RCP<operatort_type> belosPrec;
 
-    /* START OF TODO: Create a FROSch::OneLevelPreconditioner */
+    /* START OF TODO: FROSch::OneLevelPreconditioner */
 
 
 
-    /* END OF TODO: Create a FROSch::OneLevelPreconditioner */
+    /* END OF TODO: FROSch::OneLevelPreconditioner */
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
