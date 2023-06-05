@@ -13,7 +13,12 @@ We will assess the suitability of various solvers and preconditioners for CPU an
 
 ## Your tasks
 
-There are three individual exercises on
+There are four individual exercises that take you from constructing a linear system
+to standard iterative solvers and finally to more advanced preconditioners.
+It is in principle possible to start with a later exercise. After you finish one of the
+exercises, it may be fun to try running it on a GPU to check if you get the right result
+and compare the performance to the CPU.
+
 - [Creating and filling matrices and vectors](exercise-1)
 - [Iterative solution of linear systems](exercise-2)
 - [One-level Schwarz domain decomposition preconditioner using FROSch](exercise-3)
