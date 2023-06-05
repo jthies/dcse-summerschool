@@ -4,7 +4,8 @@
 #SBATCH --gpus-per-task=1
 #SBATCH -t 00:05:00
 #SBATCH --mem-per-cpu=8GB
-#SBATCH --account=research-eemcs-diam
+#SBATCH --account=education-eemcs-courses-summerschool2023
+#SBATCH --reservation=summerschool2023
 #SBATCH --partition=gpu
 
 module load 2022r2
@@ -19,6 +20,8 @@ NRUNS=1000
 
 echo "running on node `hostname`"
 nvidia-smi
+
+make gpu
 
 echo "OpenMP offloading"
 ${LAUNCH} ./matvecprod-offload.x ${NDIM} ${NRUNS}
