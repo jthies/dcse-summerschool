@@ -48,8 +48,8 @@ The exercise consists of two parts:
 
   In this case, the test is run on 4 MPI ranks. Since FROSch **assumes a one-to-one correspondence of MPI ranks and subdomains**, the test automatically uses 4 subdomains. Moreover, the tests are based on a structured domain decomposition with
 
-  + <img src="https://render.githubusercontent.com/render/math?math=N^2"> subdomains in two dimensions and
-  + <img src="https://render.githubusercontent.com/render/math?math=N^3"> subdomains in three dimensions,
+  + N^2 subdomains in two dimensions and
+  + N^3 subdomains in three dimensions,
 
   for some N.
 
