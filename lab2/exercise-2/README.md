@@ -3,8 +3,7 @@ This tutorial was given at the [EuroTUG](https://github.com/EuroTUG/trilinos-doc
 
 # How to solve a linear system with Belos and Ifpack2?
 
-In this exercise, you will use GMRES (potentially with a preconditioner such as Jacobi/Gauss-Seidel/Symmetric Gauss-Seidel)
-to solve linear systems.
+In this exercise, you will use GMRES (potentially with a preconditioner such as Jacobi/Gauss-Seidel/Symmetric Gauss-Seidel) to solve linear systems.
 
 ## Didactic goals
 
@@ -107,7 +106,7 @@ To get a complete list of options, run `./main.x --help`.
      OK...........Number of Iterations = 377 < 400
      Converged....(2-Norm Res Vec) / (2-Norm Prec Res0)
                   residual [ 0 ] = 9.70154e-09 < 1e-08
-
+   
    Belos converged in 377 iterations to an achieved tolerance of 9.70154e-09 (< tol = 1e-08).
    ```
 
@@ -216,7 +215,7 @@ To enable the preconditioer, just pass the additional command line argument `--w
      OK...........Number of Iterations = 107 < 400
      Converged....(2-Norm Res Vec) / (2-Norm Prec Res0)
                   residual [ 0 ] = 8.79942e-09 < 1e-08
-
+   
    Belos converged in 107 iterations to an achieved tolerance of 8.79942e-09 (< tol = 1e-08).
    ```
 

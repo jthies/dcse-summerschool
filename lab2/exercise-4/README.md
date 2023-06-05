@@ -1,8 +1,71 @@
-# Exercise 3 - Implementing a GDSW Preconditioner Using `FROSch`
+# Exercise 4 - Two-level Schwarz Domain Decomposition Preconditioner Using `FROSch`
 
-In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate the convergence of the iterative solver as in exercise 2, we use a two-level Schwarz GDSW preconditioner (see below for references):
+In the previous three exercises, you have learned how to:
 
-1. The one-level Schwarz preconditioner object is constructed using the matrix `A` and parameter list `precList` objects:
++ create and fill parallel distributed matrices and vectors,
++ solve a linear equation system using an iterative solver with a simple `Ifpack2` preconditioner,
++ use a one-level Schwarz domain decomposition preconditioners.
+
+In this exercise, you will learn about the use of **two-level Schwarz preconditioners**, in particular, the **algebraic GDSW (Generlized Dryja-Smith-Widlund) preconditioners**. Therefore, you will construct the corresponding preconditioner objects using the [FROSch (Fast and Robust Overlapping Schwarz) package](https://shylu-frosch.github.io/) of Trilinos.
+
+## Didactic goals
+
+Upon completion of this exercise, you should be able to:
+
++ construct a GDSW preconditioner for a given matrix using the FROSch package.
++ employ a FROSch preconditioner object as a preconditioner for a `Belos` iterative solver.
++ change the preconditioner settings via the parameter list.
+
+ ## Base code
+
+The base code for this exercise, which is already prepared for you in the `main.cpp` file, implements a **simple Laplace or elasticity model problem in two or three dimensions**; the equation and dimension of the problem can be selected via the input parameters. The computational domain is the **unit square or cube** in two or three dimensions, respectively.
+
+![solution](https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true)
+
+The discrete linear equation system is assembled using the Trilinos package `Galeri`; the Laplace equation is discretized using finite differences and the linear elasticity equation using finite elements. 
+
+Without any code changes, the model problem is solved using an iterative `Belos` solver without any preconditioner.
+
+## Instructions
+
+The exercise consists of two parts: 
+
++ **Implementation:** add missing lines of code. The corresponding locations are marked by
+
+  ```
+  /* START OF TODO: FROSch::TwoLevelPreconditioner */
+  
+  
+  
+  /* END OF TODO: FROSch::TwoLevelPreconditioner */
+  ```
+
++ **Numerical experiments:** run numerical experiments to test the preconditioner. The programs can be executed as follows:
+
+  ```shell
+  mpirun -n 4 ./solution.exe [options]
+  ```
+
+  In this case, the test is run on 4 MPI ranks. Since FROSch **assumes a one-to-one correspondence of MPI ranks and subdomains**, the test automatically uses 4 subdomains. Moreover, the tests are based on a structured domain decomposition with
+
+  + N^2 subdomains in two dimensions and
+  + N^3 subdomains in three dimensions,
+
+  for some N.
+
+  ![subdomains](https://github.com/searhein/frosch-demo/blob/main/images/subdomains.png?raw=true)
+
+  The list of all options can be printed with:
+
+  ```shell
+  ./main.x --help
+  ```
+
+  Other settings may be changed by modifying the parameter list files `parameters-2d.xml` and `parameters-3d.xml` for the 2D and 3D cases, respectively.
+
+### Implementation
+
+1. Construct a two-level Schwarz preconditioner object using the matrix `A` and parameter list `precList` objects:
 
    ```c++
    RCP<twolevelpreconditioner_type> prec(new twolevelpreconditioner_type(A,precList));
@@ -10,13 +73,15 @@ In exercise 3, instead of using a one-level Schwarz preconditioner to accelerate
 
    **Note:**
 
-   + In the file `headers_and_helpers.hpp`, the type `TwoLevelPreconditioner_type` is defined:
+   + In the file `utils.hpp`, the type `TwoLevelPreconditioner_type` is defined:
 
      ```c++
      typedef FROSch::TwoLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type> twolevelpreconditioner_type;
      ```
 
-2. As the one-level Schwarz preconditioner, the two-level Schwarz preconditioner with GDSW coarse space is set up using `initialize()` and `compute()`. For correctly setting up the GDSW coarse space, we have to specify the dimension of the problem (integer `dimension`), the number of degrees of freedom per node (integer `dofspernode`), and the overlap (parameter `"Overlap"` from the parameter list); the number of degrees of freedom per node depends on the dimension of the problem and the equation.
+     So the actual type of the preconditioner is `FROSch::TwoLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type>`. It has the same template parameters as a `Tpetra` matrix or vector.
+
+2. Same as the one-level Schwarz preconditioner, the two-level Schwarz preconditioner with GDSW coarse space is set up using `initialize()` and `compute()`. For correctly setting up the GDSW coarse space, we have to specify the dimension of the problem (integer `dimension`), the number of degrees of freedom per node (integer `dofspernode`), and the overlap (parameter `"Overlap"` from the parameter list); the number of degrees of freedom per node depends on the dimension of the problem and the equation.
 
    ```c++
    prec->initialize(dimension,dofspernode,precList->get("Overlap",1));

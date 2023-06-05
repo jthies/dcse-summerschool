@@ -1,7 +1,7 @@
 // Copyright 2021 Alexander Heinlein
 // Contact: Alexander Heinlein (a.heinlein@tudelft.nl)
 
-#include "../headers_and_helpers.hpp"
+#include "utils.hpp"
 
 int main (int argc, char *argv[])
 {
@@ -18,10 +18,9 @@ int main (int argc, char *argv[])
     int dimension = 2; clp.setOption("dim",&dimension,"Dimension: 2 or 3");
     string equation = "laplace"; clp.setOption("eq",&equation,"Type of problem: 'laplace' or 'elasticity'");
     int M = 10; clp.setOption("m",&M,"H/h (default 10)");
-    string xmlFile = "parameters.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
+    string xmlFile = "parameters-2d.xml"; clp.setOption("xml",&xmlFile,"File name of the parameter list (default ParameterList.xml).");
     bool useEpetra = false; clp.setOption("epetra","tpetra",&useEpetra,"Linear algebra framework: 'epetra' or 'tpetra' (default)");
     int V = 0; clp.setOption("v",&V,"Verbosity Level.\nVERB_DEFAULT=-1, VERB_NONE=0 (default), VERB_LOW=1, VERB_MEDIUM=2, VERB_HIGH=3, VERB_EXTREME=4");
-    bool write = false; clp.setOption("write","no-write",&write,"Write VTK files of the partitioned solution: 'write' or 'no-write' (default)");
     bool timers = false; clp.setOption("timers","no-timers",&timers,"Show timer overview: 'timers' or 'no-timers' (default)");
     clp.recogniseAllOptions(true);
     clp.throwExceptions(true);
@@ -128,7 +127,14 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> III. Construct Schwarz preconditioner\n";
     if (verbose) cout << endl;
 
-    if (verbose) cout << "Preconditioner still missing" << endl;
+    // FROSch preconditioner for Belos
+    RCP<operatort_type> belosPrec;
+
+    /* START OF TODO: FROSch::TwoLevelPreconditioner */
+
+
+
+    /* END OF TODO: FROSch::TwoLevelPreconditioner */
 
     ////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////
@@ -136,27 +142,17 @@ int main (int argc, char *argv[])
     if (verbose) cout << ">> IV. Solve the linear equation system using GMRES\n";
     if (verbose) cout << endl;
 
-    RCP<operatort_type> belosA = rcp(new xpetraop_type(A)); // Wrapper for the system matrix
+    // Set up the linear equation system for Belos
+    RCP<operatort_type> belosA = rcp(new xpetraop_type(A));
+    RCP<linear_problem_type> linear_problem (new linear_problem_type(belosA,x,b));
+    linear_problem->setProblem(x,b);
+    linear_problem->setRightPrec(belosPrec); // Specify the preconditioner
 
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + Create a Belos::LinearProblem from belosA, x, and b
-    ============================================================================
-    */
-
-    Belos::SolverFactory<scalar_type,multivector_type,operatort_type> solverfactory;
-
-    /*
-    ============================================================================
-    !! INSERT CODE !!
-    ----------------------------------------------------------------------------
-    + Create a Belos::SolverManager via the solverfactory
-    + Specify the linear problem defined above
-    + Solve the linear problem
-    ============================================================================
-    */
+    // Build the Belos iterative solver
+    solverfactory_type solverfactory;
+    RCP<solver_type> solver = solverfactory.create(parameterList->get("Belos Solver Type","GMRES"),belosList);
+    solver->setProblem(linear_problem);
+    solver->solve(); // Solve the linear system
 
     x->describe(*out,verbosityLevel);
 
@@ -170,19 +166,6 @@ int main (int argc, char *argv[])
     A->apply(*x,*b,Teuchos::NO_TRANS,static_cast<scalar_type> (-1.0),static_cast<scalar_type> (1.0));
     double normRes = b->getVector(0)->norm2();
     if (verbose) cout << "2-Norm of the residual = " << normRes << endl;
-
-#if defined (HAVE_VTK) && defined (HAVE_Boost)
-    // Write the solution to files (parallel)
-    if (write) {
-        ////////////////////////////////////////////////////////////////////////////
-        ////////////////////////////////////////////////////////////////////////////
-        if (verbose) cout << endl;
-        if (verbose) cout << ">> VI. Write the result\n";
-        if (verbose) cout << endl;
-
-        writeVTK(equation,dimension,N,M,coordinates,x);
-    }
-#endif
 
     if (verbose) cout << "Finished!" << endl;
 
