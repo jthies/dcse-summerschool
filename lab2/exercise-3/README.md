@@ -2,7 +2,7 @@
 
 In the previous two exercises, you have learned how to:
 
-+ create and fill parallel distributed matrices and vectors and 
++ create and fill parallel distributed matrices and vectors and
 + solve a linear equation system using an iterative solver with a simple `Ifpack2` preconditioner.
 
 In this exercise and the [next exercise](../exercise-4), you will learn about the use of more **advanced preconditioning techniques based on domain decomposition methods**. Therefore, you will construct preconditioner objects using the [FROSch (Fast and Robust Overlapping Schwarz) package](https://shylu-frosch.github.io/) of Trilinos:
@@ -24,21 +24,21 @@ The base code for this exercise, which is already prepared for you in the `main.
 
 ![solution](https://github.com/searhein/frosch-demo/blob/main/images/solution.png?raw=true)
 
-The discrete linear equation system is assembled using the Trilinos package `Galeri`; the Laplace equation is discretized using finite differences and the linear elasticity equation using finite elements. 
+The discrete linear equation system is assembled using the Trilinos package `Galeri`; the Laplace equation is discretized using finite differences and the linear elasticity equation using finite elements.
 
 Without any code changes, the model problem is solved using an iterative `Belos` solver without any preconditioner.
 
 ## Instructions
 
-The exercise consists of two parts: 
+The exercise consists of two parts:
 
 + **Implementation:** add missing lines of code. The corresponding locations are marked by
 
    ```
    /* START OF TODO: FROSch::OneLevelPreconditioner */
-   
-   
-   
+
+
+
    /* END OF TODO: FROSch::OneLevelPreconditioner */
    ```
 
@@ -80,7 +80,7 @@ The exercise consists of two parts:
      ```c++
      typedef FROSch::OneLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type> onelevelpreconditioner_type;
      ```
-     
+
      So the actual type of the preconditioner is `FROSch::OneLevelPreconditioner<scalar_type,local_ordinal_type,global_ordinal_type,node_type>`. It has the same template parameters as a `Tpetra` matrix or vector.
 
 2. The preconditioner is set up using `initialize()` and `compute()`. In the `initialize()` phase, the **operations that depend on the structure of the matrix but are independent of matrix values** are performed; this is similar to the symbolic factorization of a direct solver. In the `compute()` phase, the **operations that depend on the matrix values** are performed:
@@ -112,13 +112,13 @@ Perform the following numerical experiments:
 
 + How does the use of a one-level Schwarz preconditioner improve the convergence of the Krylov method? Compare the iteration counts against the corresponding unpreconditioned iteration.
 
-+ Can you confirm the condition number bound 
++ Can you confirm the condition number bound
 
-  <img src="https://render.githubusercontent.com/render/math?math=\kappa(M^{-1}K) \leq C(1%2B\frac{1}{H \delta}))">, 
+  <img src="https://render.githubusercontent.com/render/math?math=\kappa(M^{-1}K) \leq C(1%2B\frac{1}{H \delta}))">,
 
   where <img src="https://render.githubusercontent.com/render/math?math=C"> is a constant, <img src="https://render.githubusercontent.com/render/math?math=H"> is the subdomain size, and <img src="https://render.githubusercontent.com/render/math?math=\delta"> is the width of the overlap? In order to do so, investigate the iteration counts of a preconditioner Krylov method.
 
-+ How does a variation of prolongation operator influence the convergence (parameter `"Combine Values in Overlap"`):
++ How does a variation of the prolongation operator influence the convergence (parameter `"Combine Values in Overlap"`):
   + Standard additive Schwarz (`"Full"`): <img src="https://render.githubusercontent.com/render/math?math=M_{\rm OS-1}^{-1} K = \sum_{i=1}^N R_i^T K_i^{-1} R_i K">,
   + Restricted additive Schwarz (`"Restricted"`): <img src="https://render.githubusercontent.com/render/math?math=M_{\rm OS-1}^{-1} K = \sum_{i=1}^N \tilde  R_i^T K_i^{-1} R_i K"> with<img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1} \tilde R_i^T R_i = I"> by defining the prolongation <img src="https://render.githubusercontent.com/render/math?math=\tilde R_i^T"> based on a unique partition.
   + Scaled additive Schwarz (`"Scaled"`): <img src="https://render.githubusercontent.com/render/math?math=M_{\rm OS-1}^{-1} K = \sum_{i=1}^N \tilde  R_i^T K_i^{-1} R_i K"> with<img src="https://render.githubusercontent.com/render/math?math=\sum_{i=1} \tilde R_i^T R_i = I"> by defining the prolongation <img src="https://render.githubusercontent.com/render/math?math=\tilde R_i^T"> by scaling <img src="https://render.githubusercontent.com/render/math?math=R_i^T"> with the inverse multiplicity.
