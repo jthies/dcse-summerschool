@@ -2,6 +2,10 @@
 
 In this exercise we will consider the MaxCut problem and study its QUBO formulation and the equivalent Ising formulation
 
+## Problem definition
+
+The aim of the MaxCut problem is to find a partitioning of the vertices ($V$) of a graph $G=(V,E)$ into two disjoint sets $S$ and $T$, such that the number of edges ($E$) between $S$ and $T$ is as large as possible. Finding such a cut is known as the MaxCut problem.
+
 ### QUBO formulation of a small MaxCut problem
 
 1. Open the [maximum_cut.py](maximum_cut.py) file and understand what it is doing
