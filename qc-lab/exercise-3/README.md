@@ -4,7 +4,7 @@ In this exercise we will develop a QUBO formulation for the traveling salesperso
 
 ## Problem definition
 
-Given a list of cities (vertices $V$ of the graph $G=(V,E)$) and the distances between each pair of cities (edges $E$ of the graph $G$), compute the shortest possible route that visits each city exactly once and returns to the origin city.
+Given a list of cities, i.e. the vertices $V$ of the graph $G=(V,E)$, and the distances between each pair of cities, i.e. the edges $E$ of the graph $G$, compute the shortest possible route that visits each city exactly once and returns to the origin city.
 
 ### Derivation of the QUBO formulation 
 
@@ -20,4 +20,4 @@ Given a list of cities (vertices $V$ of the graph $G=(V,E)$) and the distances b
 
 ### Implementing and testing of the QUBO formulation
 
-1. Implement the derived QUBO formulation and test it first with the simulated annealing sampler and then with D-Wave's hardware sampler.
+1. Start from the file [tsp.py](tsp.py) to implement the derived QUBO formulation and test it first with the simulated annealing sampler (`sampler = SimulatedAnnealingSampler`) and then with D-Wave's hardware sampler (`sampler = EmbeddingComposite(DWaveSampler())`).
