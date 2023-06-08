@@ -20,4 +20,6 @@ Given a list of cities, i.e. the vertices $V$ of the graph $G=(V,E)$, and the di
 
 ### Implementing and testing of the QUBO formulation
 
-1. Start from the file [tsp.py](tsp.py) to implement the derived QUBO formulation and test it first with the simulated annealing sampler (`sampler = SimulatedAnnealingSampler`) and then with D-Wave's hardware sampler (`sampler = EmbeddingComposite(DWaveSampler())`).
+1. Start from the file [tsp.py](tsp.py) to implement the derived QUBO formulation.
+2. Test your implementation first with the simulated annealing sampler (`sampler = SimulatedAnnealingSampler`) and then with D-Wave's hardware sampler (`sampler = EmbeddingComposite(DWaveSampler())`).
+3. Compare your implementation with D-Wave's [TSP solver](https://docs.ocean.dwavesys.com/projects/dwave-networkx/en/latest/reference/algorithms/generated/dwave_networkx.algorithms.tsp.traveling_salesperson_qubo.html#dwave_networkx.algorithms.tsp.traveling_salesperson_qubo).
