@@ -1,14 +1,10 @@
 # Lab 4: Performance optimization of communication-avoiding algorithms
 
 In this lab, we will construct and test various Krylov variants with reduced impact of orthogonalization
-("communication-avoiding" methods. The linear system is given as Matrix Market input files and comes from
-the solution of the momentum equations in a wind-turbine model (a non-symmetric problem: see the ``MomentumEQS*`` files in the directory
-``/beegfs/apps/unsupported/summerschool/``,
-which you need to unzip once using ``gunzip <filename>``). While this may seem an easy system to solve with a Krylov method,
-note that solving thousands of such systems in sequence is required for a time-dependent simulation of this problem, so performance
-**really matters**.
-
-For quick checks, use the small matrix lap128x128.mm, because the MomentumEQS matrix takes about a minute to read from the file!
+("communication-avoiding" methods. As test problems, we will use the matrices you downloaded for yesterday's ``lab3``
+(e.g. the 'Transport' matrix). Two complete linear systems including right-hand side (rhs) and solution (sln) can 
+be found in ``/beegfs/apps/unsupported/summerschool/. For quick checks, use the small matrix lap128x128.mm, because the MomentumEQS matrix 
+(which comes from a wind-turbine simulation) takes about a minute to read from the file (on DelftBlue).
 
 ## What you will practice here
 
